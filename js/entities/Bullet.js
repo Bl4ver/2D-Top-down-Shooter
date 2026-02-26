@@ -1,4 +1,4 @@
-class Bullet {
+export class Bullet {
     constructor() {
         this.x = 0;
         this.y = 0;
@@ -26,9 +26,6 @@ class Bullet {
         }
     }
 }
-
-// JÁTÉK INDÍTÁSAKOR:
-const bulletPool = new ObjectPool(Bullet, 100);
 
 // LÖVÉSKOR:
 function shoot(startX, startY) {

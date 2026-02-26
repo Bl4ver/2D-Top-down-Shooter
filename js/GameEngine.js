@@ -1,6 +1,7 @@
 import { State } from './State.js';
 import { UIManager } from './core/UIManager.js';
 import { MenuScene } from './scenes/MenuScene.js';
+import { GameScene } from './scenes/GameScene.js';
 import { SettingsScene } from './scenes/SettingsScene.js';
 import { StatisticsScene } from './scenes/StatisticsScene.js';
 
@@ -27,7 +28,7 @@ export class GameEngine {
                 nextScene = new MenuScene(this);
                 break;
             case 'game':
-                // nextScene = new GameScene(this);
+                nextScene = new GameScene(this);
                 break;
             case 'upgrades':
                 // nextScene = new UpgradeScene(this);

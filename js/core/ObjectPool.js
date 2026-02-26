@@ -1,4 +1,4 @@
-class ObjectPool {
+export class ObjectPool {
     constructor(ClassType, initialSize = 100) {
         this.ClassType = ClassType; // Bullet, Bot, Enemy
         this.pool = [];
