@@ -7,7 +7,7 @@
     <title>Neon Overdrive</title>
     <link rel="stylesheet" href="css/style.css">
 
-    <script src="./js/main.js" type="modul" defer></script>
+    <script src="./js/main.js" type="module" defer></script>
 </head>
 
 <body>
@@ -35,33 +35,51 @@
             </div>
         </div>
 
-        <section id="main-menu" class="ui-screen active">
-            <h1 class="neon-text">NEON Overdrive</h1>
+        <!-- MARK: Main menu -->
+        <section id="main-menu" class="ui-screen hidden">
+            <h1 class="title">NEON</h1>
+            <h1 class="altTitle">Overdrive</h1>
+            <p class="description">- Cybercore Protocol: v0.2 -</p>
             <div id="menu-buttons">
                 <button id="btn-start" class="button-menu">GAME MODES</button>
                 <button id="btn-upgrades" class="button-menu">UPGRADES</button>
-                <button id="btn-statistic" class="button-menu">STATISTIC</button>
+                <button id="btn-statistics" class="button-menu">STATISTICS</button>
                 <button id="btn-encyclopedia" class="button-menu">ENCYCLOPEDIA</button>
                 <button id="btn-settings" class="button-menu">SETTINGS</button>
             </div>
         </section>
 
+        <!-- MARK: Settings Screen -->
         <section id="settings-screen" class="ui-screen hidden">
-            <h2>SETTINGS</h2>
-            <div class="setting-item">
-                <label>LANGUAGE</label>
-                <select id="lang-select">
-                    <option value="hu">Magyar</option>
-                    <option value="en">English</option>
-                </select>
+            <div class="cyber-panel">
+                <h1 class="title">SETTINGS</h1>
+                <p class="description">- Cybercore Protocol: v0.2 -</p>
+
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <label>LANGUAGE</label>
+                        <div class="input-wrapper">
+                            <select id="lang-select" class="cyber-select">
+                                <option value="hu">MAGYAR</option>
+                                <option value="en">ENGLISH</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-item">
+                        <label>MASTER VOLUME</label>
+                        <div class="range-wrapper">
+                            <input type="range" id="vol-slider" min="0" max="100" value="70">
+                            <span class="range-value">70%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-back"> [ RETURN ] </button>
             </div>
-            <div class="setting-item">
-                <label>MASTER VOLUME</label>
-                <input type="range" id="vol-slider" min="0" max="100">
-            </div>
-            <button class="back-btn">BACK</button>
         </section>
 
+        <!-- MARK: Upgrade Screen -->
         <section id="upgrade-screen" class="ui-screen hidden">
             <h2>BOT COMMANDER</h2>
             <div class="inventory-layout">
@@ -70,22 +88,52 @@
                 <div id="item-details">
                 </div>
             </div>
-            <button class="back-btn">BACK</button>
+            <button class="btn-back">BACK</button>
         </section>
 
-        <section id="statistic-screen" class="ui-screen hidden">
-            <h2>STATISTIC</h2>
-            <div>
+        <!-- MARK: Statistics Screen -->
+        <section id="statistics-screen" class="ui-screen hidden">
+            <div class="cyber-panel">
+                <h1 class="title">STATISTICS</h1>
+                <p class="description">[ DATABASE ACCESS: GRANTED ]</p>
+
+                <div class="stats-list">
+                    <div class="stat-row">
+                        <label>ÖSSZES PONTSZÁM</label>
+                        <span id="stat-allScore" class="stat-value cyan-text">0</span>
+                    </div>
+
+                    <div class="stat-row">
+                        <label>ÖSSZES BEVÉTEL</label>
+                        <span id="stat-money" class="stat-value cyan-text">0</span>
+                    </div>
+
+                    <div class="stat-row">
+                        <label>MEGSEMMISÍTÉSEK</label>
+                        <span id="stat-kills" class="stat-value cyan-text">0</span>
+                    </div>
+
+                    <div class="stat-row">
+                        <label>VÉGTELEN REKORDIDŐ</label>
+                        <span id="stat-maxTime" class="stat-value cyan-text">00:00</span>
+                    </div>
+
+                    <div class="stat-row">
+                        <label>JÁTÉKIDŐ</label>
+                        <span id="stat-allTime" class="stat-value cyan-text">00:00</span>
+                    </div>
+                </div>
+
+                <button class="btn-back">BACK</button>
             </div>
-            <button class="back-btn">BACK</button>
         </section>
 
-
+        <!-- MARK: Encyclopedia Screen -->
         <section id="encyclopedia-screen" class="ui-screen hidden">
             <h2>ENCYCLOPEDIA</h2>
             <div>
             </div>
-            <button class="back-btn">BACK</button>
+            <button class="btn-back">BACK</button>
         </section>
 
     </div>
