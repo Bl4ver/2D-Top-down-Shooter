@@ -12,6 +12,7 @@ export class UIManager {
         document.getElementById('btn-start').onclick = callbacks.onStart;
         document.getElementById('btn-settings').onclick = callbacks.onSettings;
         document.getElementById('btn-statistics').onclick = callbacks.onStatistics;
+        document.getElementById('btn-pause').onclick = callbacks.onPause;
         document.querySelectorAll('.btn-back').forEach(btn => {
             btn.onclick = callbacks.onBack;
         });

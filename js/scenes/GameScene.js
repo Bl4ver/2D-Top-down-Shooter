@@ -2,6 +2,8 @@
 // import { Bullet } from '../entities/Bullet.js';
 // import { Enemy } from '../entities/Enemy.js';
 
+import { SettingsScene } from "./SettingsScene.js";
+
 export class GameScene {
 
     constructor(engine) {
@@ -17,6 +19,9 @@ export class GameScene {
 
     init() {
         this.engine.uiManager.showScreen('hud');
+        this.engine.uiManager.bindButtonEvents({
+            onPause: () => this.engine.changeScene('pause')
+        });
     }
 
     spawnBullet(x, y, targetX, targetY) {

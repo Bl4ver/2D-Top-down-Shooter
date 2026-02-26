@@ -15,21 +15,42 @@
 
     <div id="ui-layer">
         <div id="hud" class="ui-screen hidden">
-            <div class="stats-top">
-                <div id="score">000000</div>
-                <div id="money-display">Credits: <span id="credits-val">0</span></div>
-            </div>
-            <div class="bars-bottom">
-                <div class="bar-container">
-                    <label>INTEGRITY</label>
-                    <div class="bar">
-                        <div id="hp-fill" style="width: 100%;"></div>
+            <div class="hud-top-container">
+                <div class="hud-left">
+                    <div class="bar-item pink-theme">
+                        <div class="bar-text">
+                            <label>INTEGRITÁS</label>
+                            <span id="hp-val">100%</span>
+                        </div>
+                        <div class="bar-line">
+                            <div id="hp-fill" class="fill"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item cyan-theme">
+                        <div class="bar-text">
+                            <label>PAJZS</label>
+                            <span id="shield-val">100%</span>
+                        </div>
+                        <div class="bar-line">
+                            <div id="shield-fill" class="fill"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="bar-container">
-                    <label>SHIELD</label>
-                    <div class="bar shield">
-                        <div id="shield-fill" style="width: 100%;"></div>
+
+                <div class="hud-center">
+                    <div id="score" class="digital-score">000000</div>
+                    <div class="money-row">
+                        <div class="coin-icon"></div>
+                        <span id="credits-val">0</span>
+                    </div>
+                </div>
+
+                <div class="hud-right">
+                    <div class="level-container">
+                        <div class="pause-diamond">
+                            <div class="pause-icon btn-pause"></div>
+                        </div>
+                        <div class="level-label">SZINT 01</div>
                     </div>
                 </div>
             </div>

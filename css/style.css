@@ -381,3 +381,122 @@ input[type=range]::-webkit-slider-thumb {
     color: var(--neon-gray);
     letter-spacing: 2px;
 }
+
+
+
+
+/* MARK: - HUD
+*/
+
+/* HUD ELRENDEZÉS */
+.hud-top-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+}
+
+/* BAL OLDAL - CSÍKOK */
+.hud-left { width: 220px; }
+
+.bar-item { margin-bottom: 10px; }
+
+.bar-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 900;
+    margin-bottom: 4px;
+}
+
+.bar-line {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+.fill { height: 100%; width: 100%; transition: width 0.3s ease; }
+
+/* Színkódok a kép alapján */
+.pink-theme { color: var(--neon-pink); }
+.pink-theme .fill { background: var(--neon-pink); box-shadow: 0 0 8px var(--neon-pink); }
+
+.cyan-theme { color: var(--neon-light-blue); }
+.cyan-theme .fill { background: var(--neon-light-blue); box-shadow: 0 0 8px var(--neon-light-blue); }
+
+/* KÖZÉPSŐ RÉSZ */
+.hud-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -5px;
+}
+
+.digital-score {
+    font-family: 'monospace'; /* Vagy tölts be egy 'Digital' fontot */
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--neon-light-blue);
+    text-shadow: 0 0 15px var(--neon-light-blue);
+    letter-spacing: 5px;
+}
+
+.money-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--neon-yellow);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.coin-icon {
+    width: 12px;
+    height: 12px;
+    background: var(--neon-yellow);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Rombusz érme */
+}
+
+/* JOBB OLDAL - SZINT ÉS SZÜNET */
+.level-container {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid white;
+    padding-right: 15px;
+    gap: 10px;
+}
+
+
+.pause-diamond {
+    width: 35px;
+    height: 35px;
+    border: 2px solid var(--neon-purple);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(45deg);
+    margin: 5px;
+    background: black;
+    box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.pause-icon {
+    width: 10px;
+    height: 12px;
+    border-left: 3px solid white;
+    border-right: 3px solid white;
+    transform: rotate(-45deg); /* Hogy a jel egyenes maradjon a rombuszban */
+}
+
+.level-label {
+    font-size: 24px;
+    font-weight: 900;
+    font-style: italic;
+    color: white;
+}
