@@ -2,19 +2,20 @@
 // import { Bullet } from '../entities/Bullet.js';
 // import { Enemy } from '../entities/Enemy.js';
 
-import { SettingsScene } from "./SettingsScene.js";
+import { Player } from "../entities/Player.js";
 
 export class GameScene {
 
     constructor(engine) {
         this.engine = engine;
+        this.player = new Player(engine);
 
         /*
         this.bulletPool = new ObjectPool(Bullet, 200);
         this.enemyPool = new ObjectPool(Enemy, 50);
         
-        this.entities = []; // Minden aktív dolog listája
         */
+        this.entities = []; // Minden aktív dolog listája
     }
 
     init() {
@@ -22,6 +23,7 @@ export class GameScene {
         this.engine.uiManager.bindButtonEvents({
             onPause: () => this.engine.changeScene('pause')
         });
+        this.entities.push(this.player);
     }
 
     spawnBullet(x, y, targetX, targetY) {
@@ -36,31 +38,20 @@ export class GameScene {
     }
 
     update() {
-        /*
-        // Csak az aktív elemeket frissítjük
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            const ent = this.entities[i];
-            
-            if (ent.active) {
-                ent.update();
-            } else {
-                // Ha inaktív lett (pl. kiment a képből), 
-                // kivehetjük az aktív frissítési listából (opcionális optimalizáció)
-                this.entities.splice(i, 1);
+        // Frissítjük az összes aktív entitást
+        this.entities.forEach(entity => {
+            if (entity.active) {
+                // Átadjuk az inputot a playernek
+                entity.update(this.engine.input);
             }
-        }
-        */
-
-        this.currentScene.update(this.engine.input);
+        });
 
     }
 
-    draw(ctx) {
-        /*
-       this.entities.forEach(ent => {
-           if (ent.active) ent.draw(ctx);
+    draw() {
+       this.entities.forEach(entity => {
+           if (entity.active) entity.draw();
        });
-       */
     }
 
 }

@@ -10,6 +10,8 @@ export class GameEngine {
     constructor() {
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext('2d');
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
         this.state = new State();
         this.uiManager = new UIManager();
         this.currentSceneName = null;
@@ -46,7 +48,6 @@ export class GameEngine {
                 break;
         }
 
-        console.log(nextScene)
         if (nextScene) {
             this.previousSceneName = this.currentSceneName;
             this.currentSceneName = sceneName;
