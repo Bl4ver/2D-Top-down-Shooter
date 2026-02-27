@@ -50,6 +50,9 @@ export class GameScene {
             }
         }
         */
+
+        this.currentScene.update(this.engine.input);
+
     }
 
     draw(ctx) {

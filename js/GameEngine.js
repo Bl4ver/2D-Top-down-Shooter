@@ -1,5 +1,6 @@
 import { State } from './State.js';
 import { UIManager } from './core/UIManager.js';
+import { Input } from './core/Input.js';
 import { MenuScene } from './scenes/MenuScene.js';
 import { GameScene } from './scenes/GameScene.js';
 import { SettingsScene } from './scenes/SettingsScene.js';
@@ -13,6 +14,7 @@ export class GameEngine {
         this.uiManager = new UIManager();
         this.currentSceneName = null;
         this.previousSceneName = null;
+        this.input = new Input();
     }
 
     // 1. A döntéshozó: String alapján eldönti, melyik osztályt kell betölteni
@@ -37,7 +39,7 @@ export class GameEngine {
                 nextScene = new StatisticsScene(this);
                 break;
             case 'encyclopedia':
-                // nextScene = new UpgradeScene(this);
+                // nextScene = new Encyclopedia(this);
                 break;
             case 'settings':
                 nextScene = new SettingsScene(this);
