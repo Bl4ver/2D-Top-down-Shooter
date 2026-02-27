@@ -7,12 +7,15 @@ export class Bullet {
         this.active = false; // Alapból inaktív
     }
 
-    spawn(x, y, targetX, targetY) {
-        this.x = x;
-        this.y = y;
-        // Itt kiszámolod az irányt (vektorokat)...
-        this.active = true;
-    }
+    spawn (x, y, dx, dy) {
+    // Normalizálás: a vektor hosszát 1-re hozzuk, majd megszorozzuk a sebességgel
+    const magnitude = Math.sqrt(dx * dx + dy * dy);
+    const velocityX = (dx / magnitude) * 15; // 15 a golyó sebessége
+    const velocityY = (dy / magnitude) * 15;
+
+    const bullet = new Bullet(x, y, velocityX, velocityY);
+    // Hozzáadás a GameScene listájához...
+}
 
     update() {
         if (!this.active) return;

@@ -9,6 +9,14 @@ export class Input {
         window.addEventListener('keyup', (e) => {
             this.keys[e.code] = false;
         });
+
+        window.addEventListener('onmousedown', (e) => {
+            this.keys[e.code] = true;
+        });
+
+        window.addEventListener('onmouseup', (e) => {
+            this.keys[e.code] = false;
+        });
     }
 
     isKeyDown(keyCode) {

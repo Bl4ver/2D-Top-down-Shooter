@@ -1,3 +1,5 @@
+import { Bullet } from "./Bullet.js"
+
 export class Player {
     constructor(engine) {
         this.engine = engine;
@@ -10,6 +12,8 @@ export class Player {
         this.shield = 50;
         this.active = true;
 
+        this.shootCooldown = 200; // 200ms a lövések között
+        this.lastShotTime = 0;
 
         this.mouse = { x: 0, y: 0 };
         window.addEventListener('mousemove', (event) => {
@@ -43,6 +47,24 @@ export class Player {
         if (input.isKeyDown('KeyD') || input.isKeyDown('ArrowRight')) {
             this.x = Math.min(canvasW - 20, this.x + this.speed);
         }
+
+        if (input.isKeyDown('KeyD')) { // 'Mouse0' a bal klikk
+            const now = Date.now();
+            if (now - this.lastShotTime > this.shootCooldown) {
+                this.shoot();
+                this.lastShotTime = now;
+            }
+            console.log("Shoot")
+        }
+    }
+
+    shoot() {
+        const dx = this.mouse.x - this.x;
+        const dy = this.mouse.y - this.y;
+
+        let bullet = new Bullet()
+        bullet.spawn(this.x, this.y, dx, dy);
+        console.log("Shoot");
     }
 
     draw() {
@@ -60,11 +82,13 @@ export class Player {
         // 3. A rajzolás középpontját a játékoshoz toljuk
         ctx.translate(this.x, this.y);
 
+        /*
         if (this.shield > 0) {
             ctx.beginPath(); ctx.arc(0, 0, this.radius + 12, 0, Math.PI * 2);
             ctx.strokeStyle = `rgba(0, 243, 255, ${0.2 + Math.sin(frameCount * 0.1) * 0.1})`;
             ctx.lineWidth = 2; ctx.stroke();
         }
+        */
 
         // 4. Elforgatjuk a "papírt" az egér felé
         ctx.rotate(angle);
