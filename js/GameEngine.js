@@ -1,29 +1,26 @@
-import { LangManager } from "./core/langManager.js"
+import { Renderer } from "./core/renderer.js";
+import { LangManager } from "./core/langManager.js";
+
 export class GameEngine {
     constructor() {
-        this.uiLayer = document.getElementById('ui-layer');
         this.datas;
-        this.langManager = new LangManager
-    }
-    start() {
-        this.loadScreen('tpl-main-menu');
-        this.langManager.init("hu")
+        this.langManager = new LangManager();
+        this.renderer = new Renderer(this.langManager);
     }
 
+    async start() {
+        await this.langManager.loadLanguage();
 
+        this.renderer.loadScreen('tpl-main-menu');
+    }
 
-    loadScreen(templateId) {
-        this.uiLayer.innerHTML = '';
+    async changeGameLanguage(newLangCode) {
+        await this.langManager.changeLanguage(newLangCode);
 
-        const template = document.getElementById(templateId);
-        const clone = template.content.cloneNode(true);
-
-        console.log(clone)
-
-        this.uiLayer.appendChild(clone);
+        this.renderer.updateScreenLanguage();
     }
 
     loadDatas() {
-        this.datas = "asd"
+        // ...
     }
 }
