@@ -1,10 +1,13 @@
+import { LangManager } from "./core/langManager.js"
 export class GameEngine {
     constructor() {
         this.uiLayer = document.getElementById('ui-layer');
-        this.datas 
+        this.datas;
+        this.langManager = new LangManager
     }
     start() {
         this.loadScreen('tpl-main-menu');
+        this.langManager.init("hu")
     }
 
 
@@ -15,18 +18,12 @@ export class GameEngine {
         const template = document.getElementById(templateId);
         const clone = template.content.cloneNode(true);
 
-        if (templateId === 'tpl-main-menu') {
-            const startBtn = clone.querySelector('.btn-gameModes');
-            startBtn.innerHTML = "asd"
-            startBtn.addEventListener('click', () => {
-                console.log("Játék indítása!");
-            });
-        }
+        console.log(clone)
 
         this.uiLayer.appendChild(clone);
     }
 
     loadDatas() {
-        this.datas = 
+        this.datas = "asd"
     }
 }
