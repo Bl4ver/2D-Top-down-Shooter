@@ -58,7 +58,6 @@ html {
     cursor: pointer;
 }
 
-/* ÚJ KÓD A UI RÉTEGHEZ */
 #ui-layer {
     position: absolute;
     top: 0;
@@ -66,9 +65,7 @@ html {
     width: 100%;
     height: 100%;
     z-index: 10;
-    /* Ez biztosítja, hogy a canvas FELETT legyen */
     pointer-events: none;
-    /* A réteg maga ne fogja meg a kattintást... */
 }
 
 .ui-screen {
@@ -79,5 +76,86 @@ html {
     justify-content: center;
     align-items: center;
     pointer-events: auto;
-    /* ...de a benne lévő menüelemek már igen! */
+}
+
+/* MARK: UPGRADES MENÜ
+----------------------------------- */
+
+.scrollable-screen {
+    justify-content: flex-start;
+    padding-top: 5vh;
+    overflow-y: auto;
+}
+
+.money-row {
+    margin: 20px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: transparent;
+    color: var(--neon-gray);
+    border: 2px solid var(--neon-gray);
+    padding: 10px 20px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    color: var(--neon-white);
+    border-color: var(--neon-light-blue);
+    text-shadow: 0 0 10px var(--neon-light-blue);
+    box-shadow: 0 0 10px var(--neon-light-blue) inset;
+}
+
+.tab-btn.active {
+    color: var(--neon-light-blue);
+    border-color: var(--neon-light-blue);
+    text-shadow: 0 0 10px var(--neon-light-blue);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.4) inset;
+}
+
+.tab-content {
+    display: none;
+    width: 90%;
+    max-width: 1000px;
+}
+
+.tab-content.active {
+    display: grid; 
+}
+
+.cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.upgrade-card {
+    background: var(--bg-light-dark);
+    border: 1px solid var(--neon-blue);
+    border-radius: 5px;
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--neon-white);
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(52, 66, 255, 0.2);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.upgrade-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px var(--neon-blue);
+    border-color: var(--neon-light-blue);
 }

@@ -40,6 +40,42 @@
         </section>
     </template>
 
+    <template id="tpl-upgrades">
+        <section class="ui-screen scrollable-screen">
+            <h1 class="title">UPGRADES</h1>
+            <h1 class="altTitle">Fegyvertár</h1>
+            <p class="description">- Cybercore Protocol: v0.3 -</p>
+
+            <div class="money-row">
+                <span class="description">Kreditek: </span>
+                <span id="upgrade-coins-val" class="altTitle">0</span>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-target="playerUpgrades-container">JÁTÉKOS</button>
+                <button class="tab-btn" data-target="weapons-container">FEGYVEREK</button>
+                <button class="tab-btn" data-target="bots-container">BOTOK</button>
+            </div>
+
+            <div id="playerUpgrades-container" class="tab-content active cards-grid">
+                <div class="upgrade-card">HP Boost Lvl 1</div>
+            </div>
+            
+            <div id="weapons-container" class="tab-content cards-grid">
+                <div class="upgrade-card">Plasma Gun</div>
+            </div>
+            
+            <div id="bots-container" class="tab-content cards-grid">
+                <div class="upgrade-card">Shield Drone</div>
+            </div>
+
+            <div id="menu-buttons">
+                <button class="button-menu" id="btn-back">BACK</button>
+            </div>
+        </section>
+    </template>
+    
+
 </body>
 
 </html>
