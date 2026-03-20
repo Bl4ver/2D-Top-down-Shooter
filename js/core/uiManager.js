@@ -35,6 +35,10 @@ export class UiManager {
                 if (targetContainer) {
                     targetContainer.classList.add('active');
                 }
+
+                if (this.currentScene === "tpl-upgrades"){
+                    this.gameEngine.upgradeManager.loadUpgrades(targetId);
+                }
                 return;
             }
 

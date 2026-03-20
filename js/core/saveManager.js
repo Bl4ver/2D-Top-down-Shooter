@@ -3,7 +3,7 @@ export class SaveManager {
         this.gameData = null;  // Fix adatok (szörnyek árai, fegyverek alap statjai)
         this.saveState = null; // Játékos mentése (pénz, elért szintek)
         
-        this.jsonPath = "../../assets/datas.json"; 
+        this.jsonPath = "assets/datas.json"; 
     }
 
     async loadDatas() {
@@ -16,10 +16,10 @@ export class SaveManager {
             const localSave = JSON.parse(localStorage.getItem("neon_saveData"));
 
             if (localSave) {
-                this.saveState = this.mergeDeep(json.defaultSaveState, localSave);
+                this.saveState = this.mergeDeep(json.state, localSave);
                 console.log("Mentés sikeresen betöltve!", this.saveState);
             } else {
-                this.saveState = JSON.parse(JSON.stringify(json.defaultSaveState));
+                this.saveState = JSON.parse(JSON.stringify(json.state));
                 console.log("Új profil létrehozva az alap adatokkal.");
             }
 

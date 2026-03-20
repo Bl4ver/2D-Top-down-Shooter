@@ -397,7 +397,7 @@
         }
     },
     "state": {
-        "coins": 0,
+        "coins": 10000,
         "highScore": 0,
         "settings": {
             "volume": 50,
@@ -414,7 +414,7 @@
         "inventory": {
             "activeWeapon": "pistol",
             "activeBots": [],
-            "playerLevels": {
+            "playerUpgrades": {
                 "maxHp": 1,
                 "speed": 1,
                 "maxShield": 1,

@@ -1,62 +1,42 @@
 {
     "hu": {
-        "title-main": "NEON",
-        "title-sub": "Overdrive",
-        
-        "btn-gameModes": "JÁTÉKMÓDOK",
-        "btn-settings": "BEÁLLÍTÁSOK",
-        "btn-encyclopedia": "KÓDEX",
-        "btn-upgrades": "FEJLESZTÉSEK",
-        
-        "title-modes": "JÁTÉKMÓDOK",
-        "btn-normal": "NORMÁL",
-        "btn-endless": "VÉGTELEN",
-        
-        "title-upgrades": "FEJLESZTÉSEK",
-        "title-armory": "Fegyvertár",
-        "lbl-credits": "Kreditek: ",
-        "tab-player": "JÁTÉKOS",
-        "tab-weapons": "FEGYVEREK",
-        "tab-bots": "BOTOK",
-        
         "title-settings": "BEÁLLÍTÁSOK",
         "lbl-language": "NYELV",
         "lbl-volume": "FŐ HANGERŐ",
-        
+        "btn-back": "VISSZA",
         "title-encyclopedia": "KÓDEX",
         "tab-enemies": "ELLENSÉGEK",
         "tab-bosses": "FŐELLENSÉGEK",
         
-        "btn-back": "VISSZA"
+        "lbl-level": "Szint",
+        "lbl-price": "Ár",
+        "btn-upgrade": "FEJLESZTÉS",
+        "btn-unlock": "FELOLDÁS",
+        "lbl-locked": "ZÁROLVA",
+        "name-pistol": "Lézerpisztoly",
+        "name-machinegun": "Gépfegyver",
+        "name-missile": "Rakétavető",
+        "name-repair": "Javító Drón",
+        "name-shooter": "Támadó Drón"
     },
     "en": {
-        "title-main": "NEON",
-        "title-sub": "Overdrive",
-        
-        "btn-gameModes": "GAME MODES",
-        "btn-settings": "SETTINGS",
-        "btn-encyclopedia": "ENCYCLOPEDIA",
-        "btn-upgrades": "UPGRADES",
-        
-        "title-modes": "GAME MODES",
-        "btn-normal": "NORMAL",
-        "btn-endless": "ENDLESS",
-        
-        "title-upgrades": "UPGRADES",
-        "title-armory": "Armory",
-        "lbl-credits": "Credits: ",
-        "tab-player": "PLAYER",
-        "tab-weapons": "WEAPONS",
-        "tab-bots": "BOTS",
-        
         "title-settings": "SETTINGS",
         "lbl-language": "LANGUAGE",
         "lbl-volume": "MASTER VOLUME",
-        
+        "btn-back": "BACK",
         "title-encyclopedia": "ENCYCLOPEDIA",
         "tab-enemies": "ENEMIES",
         "tab-bosses": "BOSSES",
         
-        "btn-back": "BACK"
+        "lbl-level": "Lvl",
+        "lbl-price": "Cost",
+        "btn-upgrade": "UPGRADE",
+        "btn-unlock": "UNLOCK",
+        "lbl-locked": "LOCKED",
+        "name-pistol": "Plasma Pistol",
+        "name-machinegun": "Machinegun",
+        "name-missile": "Homing Missile",
+        "name-repair": "Repair Bot",
+        "name-shooter": "Shooter Bot"
     }
 }
