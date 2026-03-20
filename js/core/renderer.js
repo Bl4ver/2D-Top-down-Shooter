@@ -5,12 +5,13 @@ export class Renderer {
     }
 
     translateNode(node) {
-        Object.entries(this.langManager.content).forEach(([key, text]) => {
-            const elements = node.querySelectorAll(`#${key}`);
-            
-            elements.forEach(element => {
-                element.textContent = text;
-            });
+        const elements = node.querySelectorAll('[data-lang]');
+
+        elements.forEach(element => {
+            const key = element.getAttribute('data-lang');
+            if (this.langManager.content[key]) {
+                element.textContent = this.langManager.content[key];
+            }
         });
     }
 
@@ -29,6 +30,8 @@ export class Renderer {
 
         this.uiLayer.appendChild(clone);
     }
+
+
 
     updateScreenLanguage() {
         this.translateNode(this.uiLayer);

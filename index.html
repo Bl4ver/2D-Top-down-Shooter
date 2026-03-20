@@ -18,63 +18,121 @@
 
     <template id="tpl-main-menu">
         <section class="ui-screen">
-            <h1 class="title">NEON</h1>
-            <h1 class="altTitle">Overdrive</h1>
+            <h1 class="title" data-lang="title-main">NEON</h1>
+            <h1 class="altTitle" data-lang="title-sub">Overdrive</h1>
             <p class="description">- Cybercore Protocol: v0.3 -</p>
             <div id="menu-buttons">
-                <button class="button-menu" id="btn-game-modes">GAME MODES</button>
-                <button class="button-menu" id="btn-upgrades">UPGRADES</button>
+                <button class="button-menu" id="btn-game-modes" data-lang="btn-gameModes">GAME MODES</button>
+                <button class="button-menu" id="btn-settings" data-lang="btn-settings">SETTINGS</button>
+                <button class="button-menu" id="btn-encyclopedia" data-lang="btn-encyclopedia">ENCYCLOPEDIA</button>
+                <button class="button-menu" id="btn-upgrades" data-lang="btn-upgrades">UPGRADES</button>
             </div>
         </section>
     </template>
 
     <template id="tpl-game-modes">
         <section class="ui-screen">
-            <h1 class="title" id="title-game-modes">Game Modes</h1>
-            <h1 class="altTitle">Overdrive</h1>
+            <h1 class="title" data-lang="title-modes">Game Modes</h1>
+            <h1 class="altTitle" data-lang="title-sub">Overdrive</h1>
             <p class="description">- Cybercore Protocol: v0.3 -</p>
             <div id="menu-buttons">
-                <button class="button-menu" id="btn-game-modes">GAME MODES</button>
-                <button class="button-menu" id="btn-back">BACK</button>
+                <button class="button-menu" id="btn-mode-normal" data-lang="btn-normal">NORMAL</button>
+                <button class="button-menu" id="btn-mode-endless" data-lang="btn-endless">ENDLESS</button>
+
+                <button class="button-menu" id="btn-back" data-lang="btn-back">BACK</button>
             </div>
         </section>
     </template>
 
     <template id="tpl-upgrades">
         <section class="ui-screen scrollable-screen">
-            <h1 class="title">UPGRADES</h1>
-            <h1 class="altTitle">Fegyvertár</h1>
+            <h1 class="title" data-lang="title-upgrades">UPGRADES</h1>
+            <h1 class="altTitle" data-lang="title-armory">Fegyvertár</h1>
             <p class="description">- Cybercore Protocol: v0.3 -</p>
 
             <div class="money-row">
-                <span class="description">Kreditek: </span>
+                <span class="description" data-lang="lbl-credits">Kreditek: </span>
                 <span id="upgrade-coins-val" class="altTitle">0</span>
             </div>
 
             <div class="tabs">
-                <button class="tab-btn active" data-target="playerUpgrades-container">JÁTÉKOS</button>
-                <button class="tab-btn" data-target="weapons-container">FEGYVEREK</button>
-                <button class="tab-btn" data-target="bots-container">BOTOK</button>
+                <button class="tab-btn active" data-target="playerUpgrades-container" data-lang="tab-player">JÁTÉKOS</button>
+                <button class="tab-btn" data-target="weapons-container" data-lang="tab-weapons">FEGYVEREK</button>
+                <button class="tab-btn" data-target="bots-container" data-lang="tab-bots">BOTOK</button>
             </div>
 
             <div id="playerUpgrades-container" class="tab-content active cards-grid">
                 <div class="upgrade-card">HP Boost Lvl 1</div>
             </div>
-            
+
             <div id="weapons-container" class="tab-content cards-grid">
                 <div class="upgrade-card">Plasma Gun</div>
             </div>
-            
+
             <div id="bots-container" class="tab-content cards-grid">
                 <div class="upgrade-card">Shield Drone</div>
             </div>
 
             <div id="menu-buttons">
-                <button class="button-menu" id="btn-back">BACK</button>
+                <button class="button-menu" id="btn-back" data-lang="btn-back">BACK</button>
             </div>
         </section>
     </template>
-    
+
+    <template id="tpl-settings">
+        <section class="ui-screen">
+            <h1 class="title" data-lang="title-settings">SETTINGS</h1>
+            <p class="description">- Cybercore Protocol: v0.3 -</p>
+
+            <div class="cyber-panel panel-auto">
+                <div class="settings-list margin-b-30">
+
+                    <div class="setting-item">
+                        <label class="setting-label" data-lang="lbl-language">LANGUAGE</label>
+                        <div class="lang-btn-container">
+                            <button class="button-menu btn-change-lang" data-change-lang="hu">MAGYAR</button>
+                            <button class="button-menu btn-change-lang" data-change-lang="en">ENGLISH</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-item margin-t-20">
+                        <label class="setting-label" data-lang="lbl-volume">MASTER VOLUME</label>
+                        <input type="range" id="vol-slider" min="0" max="100" value="70">
+                    </div>
+
+                </div>
+
+                <div id="menu-buttons">
+                    <button class="button-menu" id="btn-back" data-lang="btn-back">BACK</button>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="tpl-encyclopedia">
+        <section class="ui-screen scrollable-screen">
+            <h1 class="title" data-lang="title-encyclopedia">ENCYCLOPEDIA</h1>
+            <p class="description">[ DATABASE ACCESS: GRANTED ]</p>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-target="enemies-container" data-lang="tab-enemies">ELLENSÉGEK</button>
+                <button class="tab-btn" data-target="bosses-container" data-lang="tab-bosses">FŐELLENSÉGEK</button>
+            </div>
+
+            <div id="enemies-container" class="tab-content active cards-grid">
+                <div class="upgrade-card theme-pink">Swarm Drone</div>
+                <div class="upgrade-card theme-yellow">Fast Charger</div>
+            </div>
+
+            <div id="bosses-container" class="tab-content cards-grid">
+                <div class="upgrade-card theme-purple">Neon Goliath</div>
+            </div>
+
+            <div id="menu-buttons">
+                <button class="button-menu" id="btn-back" data-lang="btn-back">BACK</button>
+            </div>
+        </section>
+    </template>
 
 </body>
 

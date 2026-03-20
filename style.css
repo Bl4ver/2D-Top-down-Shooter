@@ -159,3 +159,134 @@ html {
     box-shadow: 0 0 20px var(--neon-blue);
     border-color: var(--neon-light-blue);
 }
+
+/* MARK: SETTINGS LAYOUT */
+.margin-b-30 {
+    margin-bottom: 30px;
+}
+
+.margin-t-20 {
+    margin-top: 20px;
+}
+
+.setting-label {
+    color: var(--neon-light-blue);
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.lang-btn-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.lang-btn-container .lang-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+}
+
+/* MARK: THEME BORDEREK KÁRTYÁKHOZ */
+.upgrade-card.theme-pink { border-color: var(--neon-pink); }
+.upgrade-card.theme-yellow { border-color: var(--neon-yellow); }
+.upgrade-card.theme-purple { border-color: var(--neon-purple); }
+.upgrade-card.theme-blue { border-color: var(--neon-blue); }
+
+/* MARK: TIPOGRÁFIA ÉS CÍMEK
+----------------------------------- */
+.title {
+    font-size: 4rem;
+    color: var(--neon-white);
+    text-shadow: 0 0 10px var(--neon-white), 0 0 20px var(--neon-purple);
+    letter-spacing: 5px;
+    margin-bottom: -10px;
+}
+
+.altTitle {
+    font-size: 2.5rem;
+    color: var(--neon-light-blue);
+    text-shadow: 0 0 10px var(--neon-light-blue);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.description {
+    color: var(--neon-gray);
+    font-style: italic;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+/* MARK: FŐMENÜ ÉS GOMBOK
+----------------------------------- */
+#menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.button-menu {
+    background: transparent;
+    color: var(--neon-white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 15px 40px;
+    border: 2px solid var(--neon-purple);
+    border-radius: 5px;
+    min-width: 280px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(188, 19, 254, 0.2) inset;
+}
+
+.button-menu:hover {
+    cursor: pointer;
+    background: var(--neon-purple);
+    color: var(--neon-white);
+    box-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-purple);
+    border-color: var(--neon-white);
+    transform: scale(1.05); /* Kicsit megnő, ha ráviszed az egeret */
+}
+
+/* Külön stílus a nyelvválasztó kisebb gomboknak */
+.lang-btn-container .button-menu {
+    min-width: auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-color: var(--neon-blue);
+    box-shadow: none;
+}
+
+.lang-btn-container .button-menu:hover {
+    background: var(--neon-blue);
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+/* MARK: PANELEK (pl. Settings menü)
+----------------------------------- */
+.cyber-panel {
+    background: rgba(22, 22, 22, 0.85); /* Félig átlátszó sötét háttér */
+    border: 1px solid var(--neon-light-blue);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+    padding: 40px;
+    border-radius: 8px;
+    margin-top: 30px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    backdrop-filter: blur(5px); /* Enyhe homályosítás a panel mögött */
+}
+
+/* A Hangerő csúszka (range input) egyedi kinézete */
+input[type="range"] {
+    width: 80%;
+    margin-top: 10px;
+    accent-color: var(--neon-light-blue); /* Neon kék színűre festi a böngésző alap csúszkáját */
+    cursor: pointer;
+}

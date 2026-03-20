@@ -1,14 +1,62 @@
-[
-    {
-        "hu": {
-            "btn-gameModes": "Játékmódok",
-            "btn-upgrades": "Fejlesztések",
-            "title-game-modes": "Játékmódok"
-        },
-        "en": {
-            "btn-gameModes": "Game Modes",
-            "btn-upgrades": "Upgrades",
-            "title-game-modes": "Game Modes"
-        }
+{
+    "hu": {
+        "title-main": "NEON",
+        "title-sub": "Overdrive",
+        
+        "btn-gameModes": "JÁTÉKMÓDOK",
+        "btn-settings": "BEÁLLÍTÁSOK",
+        "btn-encyclopedia": "KÓDEX",
+        "btn-upgrades": "FEJLESZTÉSEK",
+        
+        "title-modes": "JÁTÉKMÓDOK",
+        "btn-normal": "NORMÁL",
+        "btn-endless": "VÉGTELEN",
+        
+        "title-upgrades": "FEJLESZTÉSEK",
+        "title-armory": "Fegyvertár",
+        "lbl-credits": "Kreditek: ",
+        "tab-player": "JÁTÉKOS",
+        "tab-weapons": "FEGYVEREK",
+        "tab-bots": "BOTOK",
+        
+        "title-settings": "BEÁLLÍTÁSOK",
+        "lbl-language": "NYELV",
+        "lbl-volume": "FŐ HANGERŐ",
+        
+        "title-encyclopedia": "KÓDEX",
+        "tab-enemies": "ELLENSÉGEK",
+        "tab-bosses": "FŐELLENSÉGEK",
+        
+        "btn-back": "VISSZA"
+    },
+    "en": {
+        "title-main": "NEON",
+        "title-sub": "Overdrive",
+        
+        "btn-gameModes": "GAME MODES",
+        "btn-settings": "SETTINGS",
+        "btn-encyclopedia": "ENCYCLOPEDIA",
+        "btn-upgrades": "UPGRADES",
+        
+        "title-modes": "GAME MODES",
+        "btn-normal": "NORMAL",
+        "btn-endless": "ENDLESS",
+        
+        "title-upgrades": "UPGRADES",
+        "title-armory": "Armory",
+        "lbl-credits": "Credits: ",
+        "tab-player": "PLAYER",
+        "tab-weapons": "WEAPONS",
+        "tab-bots": "BOTS",
+        
+        "title-settings": "SETTINGS",
+        "lbl-language": "LANGUAGE",
+        "lbl-volume": "MASTER VOLUME",
+        
+        "title-encyclopedia": "ENCYCLOPEDIA",
+        "tab-enemies": "ENEMIES",
+        "tab-bosses": "BOSSES",
+        
+        "btn-back": "BACK"
     }
-]
+}
