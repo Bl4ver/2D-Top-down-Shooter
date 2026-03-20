@@ -1,10 +1,14 @@
 [
     {
         "hu": {
-            "btn-gameModes": "Játékmódok"
+            "btn-gameModes": "Játékmódok",
+            "btn-upgrades": "Fejlesztések",
+            "title-game-modes": "Játékmódok"
         },
         "en": {
-            "btn-gameModes": "Game Modes"
+            "btn-gameModes": "Game Modes",
+            "btn-upgrades": "Upgrades",
+            "title-game-modes": "Game Modes"
         }
     }
 ]

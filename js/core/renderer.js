@@ -6,7 +6,7 @@ export class Renderer {
 
     translateNode(node) {
         Object.entries(this.langManager.content).forEach(([key, text]) => {
-            const elements = node.querySelectorAll(`.${key}`);
+            const elements = node.querySelectorAll(`#${key}`);
             
             elements.forEach(element => {
                 element.textContent = text;

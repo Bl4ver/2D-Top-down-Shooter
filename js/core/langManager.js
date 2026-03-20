@@ -7,6 +7,8 @@ export class LangManager {
 
     async loadLanguage() {
         try {
+            this.langCode = localStorage.getItem("langCode") ? localStorage.getItem("langCode") : this.langCode;
+
             const response = await fetch(this.langJSONPath);
             const json = await response.json();
 
@@ -21,5 +23,7 @@ export class LangManager {
     async changeLanguage(langCode) {
         this.langCode = langCode;
         await this.loadLanguage();
+
+        localStorage.setItem("langCode", langCode);
     }
 }
