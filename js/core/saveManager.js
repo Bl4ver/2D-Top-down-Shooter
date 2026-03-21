@@ -2,8 +2,8 @@ export class SaveManager {
     constructor() {
         this.gameData = null;  // Fix adatok (szörnyek árai, fegyverek alap statjai)
         this.saveState = null; // Játékos mentése (pénz, elért szintek)
-        
-        this.jsonPath = "assets/datas.json"; 
+
+        this.jsonPath = "assets/datas.json";
     }
 
     async loadDatas() {
@@ -11,7 +11,7 @@ export class SaveManager {
             const response = await fetch(this.jsonPath);
             const json = await response.json();
 
-            this.gameData = json.gameData; 
+            this.gameData = json.gameData;
 
             const localSave = JSON.parse(localStorage.getItem("neon_saveData"));
 

@@ -19,8 +19,7 @@
     box-sizing: border-box;
 }
 
-body,
-html {
+body, html {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -62,6 +61,7 @@ html {
 .scrollable-screen {
     justify-content: flex-start;
     padding-top: 5vh;
+    padding-bottom: 5vh;
     overflow-y: auto;
 }
 
@@ -96,12 +96,8 @@ html {
     margin-bottom: 5px;
 }
 
-/* MARK: GOMBOK (ALAP & HOVER)
+/* MARK: FŐMENÜ GOMBOK
 ----------------------------------- */
-.button-menu:hover {
-    cursor: pointer;
-}
-
 #menu-buttons {
     display: flex;
     flex-direction: column;
@@ -124,10 +120,10 @@ html {
     text-transform: uppercase;
     transition: all 0.3s ease;
     box-shadow: 0 0 10px rgba(188, 19, 254, 0.2) inset;
+    cursor: pointer;
 }
 
 .button-menu:hover {
-    cursor: pointer;
     background: var(--neon-purple);
     color: var(--neon-white);
     box-shadow: 0 0 15px var(--neon-purple), 0 0 30px var(--neon-purple);
@@ -179,20 +175,14 @@ html {
     display: grid;
 }
 
+/* Alap grid a Kódex kártyáknak */
 .cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     margin-bottom: 40px;
 }
 
-/* MARK: UPGRADE KÁRTYÁK (DINAMIKUS)
------------------------------------ */
-.money-row {
-    margin: 20px 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
+/* Kódex kártya alap (Encyclopedia) */
 .upgrade-card {
     background: var(--bg-light-dark);
     border: 1px solid var(--neon-blue);
@@ -210,134 +200,6 @@ html {
     transform: translateY(-5px);
     box-shadow: 0 0 20px var(--neon-blue);
     border-color: var(--neon-light-blue);
-}
-
-/* Dinamikus upgrade kártyák (JS-ből generált) */
-.upgrade {
-    border: 1px solid var(--neon-blue);
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0 0 10px rgba(52, 66, 255, 0.15);
-}
-
-/* Az első 'detail' elem általában a fejlesztés NEVE, ezt kiemeljük neon kékkel */
-.upgrade .detail:first-of-type {
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: var(--neon-light-blue);
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.6);
-    margin-bottom: 15px;
-    border-bottom: 1px solid rgba(121, 121, 121, 0.3);
-    padding-bottom: 10px;
-    width: 100%;
-}
-
-/* Letiltott (nincs elég pénz) gomb állapota */
-.upgrade-button.disabled {
-    border-color: var(--neon-gray) !important;
-    color: var(--neon-gray) !important;
-    box-shadow: none !important;
-    cursor: not-allowed;
-}
-
-.upgrade-button.disabled:hover {
-    background: transparent !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-/* Zárt / Nem megvett fegyverek kártyája */
-.upgrade-card.locked {
-    border-color: var(--neon-gray);
-    opacity: 0.7;
-}
-
-/* MARK: DINAMIKUS FEJLESZTÉS SOROK ÉS PREVIEW (JAVÍTOTT GRID VERZIÓ)
------------------------------------ */
-.stat-action-row {
-    display: grid;
-    /* Három fix oszlop: Érték (60px) | Gomb (min. 100px) | Preview (80px) */
-    grid-template-columns: 60px minmax(100px, auto) 80px; 
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    margin-top: 10px;
-    justify-content: center;
-}
-
-.current-val {
-    text-align: right; /* A gombhoz igazítjuk */
-    font-size: 1.3rem;
-    color: var(--neon-white);
-    font-weight: bold;
-}
-
-/* A gombok az új rácsban */
-.upgrade-button.inline-btn,
-.upgrade-button.mini-btn {
-    width: 100%; /* Kitölti a középső oszlopot */
-    margin: 0;
-    padding: 6px 10px;
-    font-size: 1.2rem;
-    text-align: center;
-}
-
-/* PREVIEW REJTÉSE ÉS MEGJELENÍTÉSE */
-.upgrade-preview {
-    visibility: hidden;
-    opacity: 0;
-    color: var(--neon-green);
-    font-weight: bold;
-    font-size: 1.2rem;
-    text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
-    text-align: left; /* A gombtól kifelé igazítjuk */
-    transition: opacity 0.2s ease, visibility 0.2s ease;
-    white-space: nowrap; /* Hogy a +10 (-> 110) ne törjön két sorba */
-}
-
-/* HOVER: CSAK akkor jelenik meg, ha a GOMBOT hoverelik! */
-.upgrade-button:not(.disabled):hover + .upgrade-preview {
-    visibility: visible;
-    opacity: 1;
-}
-
-.upgrade-button.disabled:hover + .upgrade-preview {
-    visibility: hidden;
-    opacity: 0;
-}
-
-/* MARK: KÖLTSÉG SOR
------------------------------------ */
-.detail.cost {
-    color: var(--neon-yellow);
-    font-weight: bold;
-    text-shadow: 0 0 8px rgba(255, 242, 0, 0.3);
-}
-
-/* Töröltük a korábbi teljes szélességű .upgrade-button szabályt, 
-mert most már minden gomb inline lesz! A letiltott / hover állapotok maradnak. */
-.upgrade-button {
-    background: transparent;
-    color: var(--neon-green);
-    font-family: 'Rajdhani', sans-serif;
-    font-weight: bold;
-    text-transform: uppercase;
-    border: 2px solid var(--neon-green);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(57, 255, 20, 0.2) inset;
-}
-
-.upgrade-button:hover {
-    background: var(--neon-green);
-    color: var(--bg-dark);
-    box-shadow: 0 0 15px var(--neon-green), 0 0 30px var(--neon-green);
 }
 
 /* MARK: BEÁLLÍTÁSOK PANELEI
@@ -362,7 +224,6 @@ input[type="range"] {
     cursor: pointer;
 }
 
-/*MARK: SETTINGS LAYOUT */
 .margin-b-30 { margin-bottom: 30px; }
 .margin-t-20 { margin-top: 20px; }
 
@@ -380,13 +241,218 @@ input[type="range"] {
     justify-content: center;
 }
 
-.lang-btn-container .lang-btn {
+.lang-btn-container .btn-change-lang {
+    min-width: 120px;
     padding: 10px 20px;
     font-size: 1rem;
 }
 
-/* MARK: THEME BORDEREK KÁRTYÁKHOZ */
+/* THEME BORDEREK KÁRTYÁKHOZ (Kódex) */
 .upgrade-card.theme-pink { border-color: var(--neon-pink); }
 .upgrade-card.theme-yellow { border-color: var(--neon-yellow); }
 .upgrade-card.theme-purple { border-color: var(--neon-purple); }
 .upgrade-card.theme-blue { border-color: var(--neon-blue); }
+
+/* MARK: FEGYVERTÁR / UPGRADES
+----------------------------------- */
+.money-row {
+    margin: 20px 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.tab-content.active.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
+    gap: 30px;
+    width: 100%;
+    align-items: start;
+}
+
+.entity-card {
+    background: #0a0a0a;
+    border: none;
+    border-left: 4px solid var(--neon-purple);
+    border-radius: 4px;
+    padding: 25px;
+    width: 100%;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    cursor: default;
+}
+
+.entity-card {
+    background: #0a0a0a;
+    border: none;
+    border-left: 4px solid var(--neon-purple);
+    border-radius: 4px;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    cursor: default; /* Itt nem az egész kártya kattintható */
+}
+
+.entity-card:hover {
+    transform: none; /* Kikapcsoljuk az alap kártya ugrálását */
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+    border-left-color: var(--neon-purple);
+}
+
+.entity-card.locked {
+    border-left-color: var(--neon-gray);
+    opacity: 0.6;
+}
+
+.entity-card.locked:hover {
+    border-left-color: var(--neon-gray);
+}
+
+.entity-title {
+    color: var(--neon-white);
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* FELSZERELVE GOMB LOGIKA */
+.equip-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.equip-btn.active {
+    background: var(--neon-green);
+    color: #000;
+    border: none;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+}
+
+.equip-btn:not(.active) {
+    background: transparent;
+    color: var(--neon-purple);
+    border: 2px solid var(--neon-purple);
+}
+
+.equip-btn:not(.active):not(.disabled):hover {
+    background: var(--neon-purple);
+    color: #fff;
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+.equip-btn.disabled {
+    border-color: var(--neon-gray);
+    color: var(--neon-gray);
+    cursor: not-allowed;
+}
+
+/* SOROK DIZÁJNJA (Sebzés, FireRate stb.) */
+.stat-row-modern {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+}
+
+.stat-row-modern:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.stat-left {
+    flex: 1;
+    text-align: left;
+}
+
+.stat-name {
+    color: #b3b3b3;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.stat-mid {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+    gap: 5px;
+}
+
+.current-val {
+    font-size: 1.2rem;
+    color: var(--neon-white);
+    font-weight: bold;
+}
+
+/* Zöld felvillanó preview */
+.upgrade-preview {
+    color: var(--neon-green);
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(+10px);
+    transition: all 0.2s ease;
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+}
+
+/* A LILA ÁRGOMB */
+.stat-right {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.price-btn {
+    background: transparent;
+    border: 2px solid var(--neon-purple);
+    color: var(--neon-purple);
+    padding: 8px 15px;
+    font-size: 1.1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    border-radius: 2px;
+    cursor: pointer;
+    min-width: 80px;
+    transition: all 0.2s;
+}
+
+.price-btn:not(.disabled):hover {
+    background: var(--neon-purple);
+    color: var(--neon-white);
+    box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.price-btn.disabled {
+    border-color: #555;
+    color: #555;
+    cursor: not-allowed;
+}
+
+/* !!! A HOVER VARÁZSLAT !!!
+   Ha rávisszük az egeret a lila gombra (ami nincs letiltva), 
+   a soron belül megjelenik a zöld preview! */
+.stat-row-modern:has(.price-btn:not(.disabled):hover) .upgrade-preview {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}

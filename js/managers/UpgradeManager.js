@@ -21,23 +21,14 @@ export class UpgradeManager {
         const upgradesContainer = document.getElementById(currentTab);
         upgradesContainer.innerHTML = ''; 
 
-        // --- JÁTÉKOS FEJLESZTÉSEK ---
         if (match === 'playerUpgrades') {
-            const data = this.upgrades.playerUpgrades;
-            const levels = this.inventory.playerUpgrades;
-            
-            for (const [statKey, statData] of Object.entries(data)) {
-                this.createCard(upgradesContainer, statData.name, statData, levels[statKey], match, statKey);
-            }
-        } 
-        // --- FEGYVEREK ÉS BOTOK ---
-        else if (match === 'weapons' || match === 'bots') {
+            // Játékos statok egyetlen nagy kártyába vonva!
+            this.createEntityCard(upgradesContainer, 'player', this.upgrades.playerUpgrades, match);
+        } else if (match === 'weapons' || match === 'bots') {
+            // Fegyverek és Botok kártyái
             const entities = this.upgrades[match];
-            
             for (const [entityKey, entityData] of Object.entries(entities)) {
-                const isUnlocked = this.inventory[match][entityKey].unlocked;
-                
-                if (!isUnlocked) {
+                if (!this.inventory[match][entityKey].unlocked) {
                     this.createUnlockCard(upgradesContainer, entityKey, entityData, match);
                 } else {
                     this.createEntityCard(upgradesContainer, entityKey, entityData, match);
@@ -48,184 +39,127 @@ export class UpgradeManager {
         this.updateCoinsUI();
     }
 
-    // Alap kártya a játékos statisztikáinak
-    createCard(container, titleText, statData, currentLevel, category, statKey) {
-        const card = document.createElement('div');
-        card.classList.add('upgrade-card', 'upgrade');
-
-        const title = document.createElement('p');
-        title.classList.add('detail', 'title');
-        title.textContent = titleText;
-        card.appendChild(title);
-
-        // Költség és Szint egy sorban
-        const cost = statData.baseCost * currentLevel;
-        const infoRow = document.createElement('div');
-        infoRow.classList.add('card-info-row');
-        infoRow.innerHTML = `
-            <span class="detail">${this.getTranslation('lbl-level', 'Lvl')}: ${currentLevel}</span>
-            <span class="detail cost">${this.getTranslation('lbl-price', 'Ár')}: ${cost} C</span>
-        `;
-        card.appendChild(infoRow);
-
-        // Számítások
-        const currentValue = statData.baseValue + ((currentLevel - 1) * statData.inc);
-        const formatNum = (num) => Number.isInteger(num) ? num : parseFloat(num.toFixed(2));
-        
-        const incValue = statData.inc;
-        const arrow = incValue > 0 ? '&uarr;' : '&darr;'; // Felfelé vagy lefelé nyíl
-
-        // Új sor: Érték [GOMB] Preview
-        const actionRow = document.createElement('div');
-        actionRow.classList.add('stat-action-row');
-
-        const valSpan = document.createElement('span');
-        valSpan.classList.add('current-val');
-        valSpan.textContent = formatNum(currentValue);
-
-        const btn = document.createElement('button');
-        btn.classList.add('upgrade-button', 'inline-btn');
-        btn.innerHTML = this.getTranslation('btn-upgrade', 'UPGRADE');
-        
-        if (this.state.coins < cost) {
-            btn.disabled = true;
-            btn.classList.add('disabled');
-        }
-
-        btn.onclick = () => {
-            if (this.state.coins >= cost) {
-                this.state.coins -= cost;
-                this.inventory.playerLevels[statKey]++;
-                this.gameEngine.saveManager.saveDatas();
-                this.loadUpgrades(`${category}-container`);
-            }
-        };
-
-        const previewSpan = document.createElement('span');
-        previewSpan.classList.add('upgrade-preview');
-        previewSpan.innerHTML = `${arrow} ${formatNum(Math.abs(incValue))}`; // Abszolút érték, a nyíl mutatja az irányt
-
-        // Sorrend fontos a CSS miatt! Val -> Btn -> Preview
-        actionRow.appendChild(valSpan);
-        actionRow.appendChild(btn);
-        actionRow.appendChild(previewSpan);
-        card.appendChild(actionRow);
-
-        container.appendChild(card);
-    }
-
-    // Összevont fegyver/bot kártya
     createEntityCard(container, entityKey, entityData, category) {
         const card = document.createElement('div');
-        card.classList.add('upgrade-card', 'upgrade', 'entity-card');
+        card.classList.add('upgrade-card', 'entity-card');
 
-        const entityName = this.getTranslation(`name-${entityKey}`, entityKey.toUpperCase());
-        const title = document.createElement('p');
-        title.classList.add('detail', 'title', 'entity-title');
-        title.textContent = entityName;
+        // Fő cím (pl. PISTOL)
+        const entityName = category === 'playerUpgrades' 
+            ? this.getTranslation('tab-player', 'PLAYER') 
+            : this.getTranslation(`name-${entityKey}`, entityKey.toUpperCase());
+            
+        const title = document.createElement('h2');
+        title.classList.add('entity-title');
+        title.textContent = entityName.toUpperCase();
         card.appendChild(title);
 
-        const levels = this.inventory[category][entityKey].levels;
+        // "FELSZERELVE" gomb logika fegyverekhez
+        if (category === 'weapons') {
+            const isActive = this.inventory.activeWeapon === entityKey;
+            const equipBtn = document.createElement('button');
+            equipBtn.className = isActive ? 'equip-btn active' : 'equip-btn';
+            equipBtn.textContent = isActive 
+                ? this.getTranslation('btn-equipped', 'FELSZERELVE') 
+                : this.getTranslation('btn-equip', 'FELSZERELÉS');
 
-        for (const [statKey, statData] of Object.entries(entityData.upgrades)) {
-            const currentLevel = levels[statKey];
+            if (!isActive) {
+                equipBtn.onclick = () => {
+                    this.inventory.activeWeapon = entityKey;
+                    this.gameEngine.saveManager.saveDatas();
+                    this.loadUpgrades(`${category}-container`);
+                };
+            }
+            card.appendChild(equipBtn);
+        }
+
+        // JAVÍTVA: Itt a this.inventory.playerLevels-t kicseréltük this.inventory.playerUpgrades-re!
+        const statsObj = category === 'playerUpgrades' ? entityData : entityData.upgrades;
+        const levelsObj = category === 'playerUpgrades' ? this.inventory.playerUpgrades : this.inventory[category][entityKey].levels;
+
+        // Végigmegyünk a statisztika sorokon
+        for (const [statKey, statData] of Object.entries(statsObj)) {
+            const currentLevel = levelsObj[statKey];
             const cost = statData.baseCost * currentLevel;
-            
             const currentValue = statData.baseValue + ((currentLevel - 1) * statData.inc);
-            const formatNum = (num) => Number.isInteger(num) ? num : parseFloat(num.toFixed(2));
             
-            const incValue = statData.inc;
-            const arrow = incValue > 0 ? '&uarr;' : '&darr;';
+            const formatNum = (num) => Number.isInteger(num) ? num : parseFloat(num.toFixed(2));
+            const incSign = statData.inc > 0 ? '+' : '';
 
-            const statBlock = document.createElement('div');
-            statBlock.classList.add('stat-block');
+            // Egy sor létrehozása
+            const statRow = document.createElement('div');
+            statRow.classList.add('stat-row-modern');
 
-            const header = document.createElement('div');
-            header.classList.add('stat-header');
-            header.innerHTML = `
-                <span>${statData.name} <small>(${this.getTranslation('lbl-level', 'Lvl')} ${currentLevel})</small></span> 
-                <span class="cost-text">${cost} C</span>
+            // Bal: Név + Szint
+            const leftSide = document.createElement('div');
+            leftSide.classList.add('stat-left');
+            leftSide.innerHTML = `<span class="stat-name">${statData.name} (Lv${currentLevel})</span>`;
+
+            // Közép: Jelenlegi érték és a Rejtett Preview
+            const midSide = document.createElement('div');
+            midSide.classList.add('stat-mid');
+            midSide.innerHTML = `
+                <span class="upgrade-preview">${incSign}${formatNum(statData.inc)}</span>
+                <span class="current-val">${formatNum(currentValue)}</span>
             `;
-            statBlock.appendChild(header);
 
-            // Új sor: Érték [GOMB] Preview
-            const actionRow = document.createElement('div');
-            actionRow.classList.add('stat-action-row');
-
-            const valSpan = document.createElement('span');
-            valSpan.classList.add('current-val');
-            valSpan.textContent = formatNum(currentValue);
-
+            // Jobb: Lila Árgomb
+            const rightSide = document.createElement('div');
+            rightSide.classList.add('stat-right');
+            
             const btn = document.createElement('button');
-            btn.classList.add('upgrade-button', 'mini-btn');
-            btn.innerHTML = '&uarr;'; // Ikon a mini gombon
-            btn.title = this.getTranslation('btn-upgrade', 'UPGRADE');
+            btn.classList.add('price-btn');
+            btn.innerHTML = `${cost} &curren;`; // A kis "Napocska" valuta szimbólum (¤)
 
             if (this.state.coins < cost) {
                 btn.disabled = true;
                 btn.classList.add('disabled');
-            }
-
-            btn.onclick = () => {
-                if (this.state.coins >= cost) {
+            } else {
+                btn.onclick = () => {
                     this.state.coins -= cost;
-                    this.inventory[category][entityKey].levels[statKey]++;
+                    levelsObj[statKey]++;
                     this.gameEngine.saveManager.saveDatas();
                     this.loadUpgrades(`${category}-container`);
-                }
-            };
+                };
+            }
 
-            const previewSpan = document.createElement('span');
-            previewSpan.classList.add('upgrade-preview');
-            previewSpan.innerHTML = `${arrow} ${formatNum(Math.abs(incValue))}`;
+            rightSide.appendChild(btn);
 
-            // Sorrend: Érték, Gomb, Előnézet (A CSS miatt kell ez a sorrend!)
-            actionRow.appendChild(valSpan);
-            actionRow.appendChild(btn);
-            actionRow.appendChild(previewSpan);
-            
-            statBlock.appendChild(actionRow);
-            card.appendChild(statBlock);
+            statRow.appendChild(leftSide);
+            statRow.appendChild(midSide);
+            statRow.appendChild(rightSide);
+            card.appendChild(statRow);
         }
 
         container.appendChild(card);
     }
 
     createUnlockCard(container, entityKey, entityData, category) {
-        // ... (Ez a rész változatlan marad, nem másolom be újra az egészet, tökéletesen működik, ahogy előzőleg írtuk) ...
         const card = document.createElement('div');
-        card.classList.add('upgrade-card', 'upgrade', 'locked');
+        card.classList.add('upgrade-card', 'entity-card', 'locked');
 
         const entityName = this.getTranslation(`name-${entityKey}`, entityKey.toUpperCase());
-        const title = document.createElement('p');
-        title.classList.add('detail', 'title');
+        const title = document.createElement('h2');
+        title.classList.add('entity-title');
         title.textContent = `${entityName} (${this.getTranslation('lbl-locked', 'ZÁROLVA')})`;
         card.appendChild(title);
 
-        const costRow = document.createElement('p');
-        costRow.classList.add('detail', 'cost');
-        costRow.textContent = `${this.getTranslation('lbl-price', 'Ár')}: ${entityData.unlockCost} C`;
-        card.appendChild(costRow);
-
-        const btn = document.createElement('button');
-        btn.classList.add('upgrade-button', 'unlock-btn');
-        btn.textContent = this.getTranslation('btn-unlock', 'FELOLDÁS');
+        const unlockBtn = document.createElement('button');
+        unlockBtn.classList.add('equip-btn');
+        unlockBtn.innerHTML = `${this.getTranslation('btn-unlock', 'FELOLDÁS')} - ${entityData.unlockCost} &curren;`;
         
         if (this.state.coins < entityData.unlockCost) {
-            btn.disabled = true;
-            btn.classList.add('disabled');
-        }
-
-        btn.onclick = () => {
-            if (this.state.coins >= entityData.unlockCost) {
+            unlockBtn.disabled = true;
+            unlockBtn.classList.add('disabled');
+        } else {
+            unlockBtn.onclick = () => {
                 this.state.coins -= entityData.unlockCost;
                 this.inventory[category][entityKey].unlocked = true;
                 this.gameEngine.saveManager.saveDatas();
                 this.loadUpgrades(`${category}-container`);
-            }
-        };
+            };
+        }
 
-        card.appendChild(btn);
+        card.appendChild(unlockBtn);
         container.appendChild(card);
     }
 
