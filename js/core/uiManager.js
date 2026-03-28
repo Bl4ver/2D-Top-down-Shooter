@@ -63,6 +63,11 @@ export class UiManager {
                     this.lastScene = this.currentScene;
                     this.currentScene = `tpl-${screenName}`;
                     this.gameEngine.renderer.loadScreen(this.currentScene);
+
+                    if (this.currentScene === 'tpl-upgrades') {
+                        this.gameEngine.upgradeManager.loadUpgrades('playerUpgrades-container');
+                    }
+
                     return;
                 }
             }

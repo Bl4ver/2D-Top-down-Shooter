@@ -362,7 +362,7 @@ input[type="range"] {
 }
 
 /* SOROK DIZÁJNJA (Sebzés, FireRate stb.) */
-.stat-row-modern {
+.stat-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -373,7 +373,7 @@ input[type="range"] {
     transition: background 0.2s;
 }
 
-.stat-row-modern:hover {
+.stat-row:hover {
     background: rgba(255, 255, 255, 0.05);
 }
 
@@ -448,10 +448,7 @@ input[type="range"] {
     cursor: not-allowed;
 }
 
-/* !!! A HOVER VARÁZSLAT !!!
-   Ha rávisszük az egeret a lila gombra (ami nincs letiltva), 
-   a soron belül megjelenik a zöld preview! */
-.stat-row-modern:has(.price-btn:not(.disabled):hover) .upgrade-preview {
+.stat-row:has(.price-btn:not(.disabled):hover) .upgrade-preview {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);

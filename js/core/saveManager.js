@@ -1,6 +1,6 @@
 export class SaveManager {
     constructor() {
-        this.gameData = null;  // Fix adatok (szörnyek árai, fegyverek alap statjai)
+        this.gameData = null;  // Fix adatok (cuccok árai, fegyverek alap statjai)
         this.saveState = null; // Játékos mentése (pénz, elért szintek)
 
         this.jsonPath = "assets/datas.json";
