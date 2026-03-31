@@ -92,7 +92,7 @@ export class UpgradeManager {
                 if (!aciteveBots.includes(entityKey)) {
                     this.inventory.activeBots.push(entityKey);
                 } else {
-                    this.inventory.activeBots.pop(entityKey);
+                    this.inventory.activeBots = this.inventory.activeBots.filter(bot => bot !== entityKey);
                 }
                 this.gameEngine.saveManager.saveDatas();
                 this.loadUpgrades(`${category}-container`);

@@ -36,7 +36,7 @@ export class UiManager {
                     targetContainer.classList.add('active');
                 }
 
-                if (this.currentScene === "tpl-upgrades"){
+                if (this.currentScene === "tpl-upgrades") {
                     this.gameEngine.upgradeManager.loadUpgrades(targetId);
                 }
                 return;
@@ -47,28 +47,35 @@ export class UiManager {
                 const match = e.target.id.match(/^btn-(.*)/);
 
                 if (match) {
-                    const screenName = match[1];
+                    const screenName = match[1]; // pl: 'mode-normal', 'back', 'settings'
 
-                    // Vissza gomb
-                    if (screenName === "back") {
-                        if (this.lastScene) {
-                            this.gameEngine.renderer.loadScreen(this.lastScene);
-                            this.currentScene = this.lastScene;
-                            this.lastScene = 'tpl-main-menu';
-                        }
-                        return;
+                    switch (screenName) {
+                        case 'mode-normal':
+                            this.gameEngine.gameDirector.init("normal");
+                            this.gameEngine.gameDirector.startGame();
+                            this.gameEngine.renderer.setupGameScreen();
+                            return; // Kilépünk, mert nem menüt töltünk be!
+                        case "mode-challenge":
+                            this.gameEngine.gameDirector.init("challenge");
+                            this.gameEngine.gameDirector.startGame();
+                            this.gameEngine.renderer.setupGameScreen();
+                            return;
+                        case "back":
+                            if (this.lastScene) {
+                                this.gameEngine.renderer.loadScreen(this.lastScene);
+                                this.currentScene = this.lastScene;
+                                this.lastScene = 'tpl-main-menu';
+                            }
+                            return;
+                        case "tpl-upgrades":
+                            this.gameEngine.upgradeManager.loadUpgrades('playerUpgrades-container');
+                            return;
                     }
 
-                    // Új képernyő
+                    // Új képernyő (normál menük)
                     this.lastScene = this.currentScene;
                     this.currentScene = `tpl-${screenName}`;
                     this.gameEngine.renderer.loadScreen(this.currentScene);
-
-                    if (this.currentScene === 'tpl-upgrades') {
-                        this.gameEngine.upgradeManager.loadUpgrades('playerUpgrades-container');
-                    }
-
-                    return;
                 }
             }
         });
