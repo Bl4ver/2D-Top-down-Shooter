@@ -5,7 +5,7 @@ export class WaveManager {
     }
 
     init(){
-
+        
     }
 
     update(){

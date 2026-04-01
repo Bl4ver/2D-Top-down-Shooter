@@ -117,6 +117,26 @@ export class Renderer {
         this.ctx.fillRect(player.x, player.y, player.size, player.size);
 
         this.ctx.restore();
+
+        // 4. Ellenségek kirajzolása
+        Object.values(this.engine.enemyPools).forEach(pool => {
+            pool.pool.forEach(enemy => {
+                if (enemy.isActive) {
+                    this.ctx.save();
+
+                    // Neon effekt beállítása
+                    this.ctx.strokeStyle = enemy.color;
+                    this.ctx.shadowColor = enemy.color;
+                    this.ctx.shadowBlur = 15;
+                    this.ctx.lineWidth = 2;
+
+                    // Ellenség kirajzolása
+                    this.ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size);
+
+                    this.ctx.restore();
+                }
+            });
+        });
     }
 
     updateScreenLanguage() {

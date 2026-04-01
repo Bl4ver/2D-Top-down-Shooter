@@ -23,8 +23,12 @@ export class GameEngine {
         this.player = new Player(this);
 
         this.enemyPools = {
-            basicEnemyPool: new ObjectPool(EnemyBase, 100),
-            fastEnemyPool: new ObjectPool(EnemyBase, 100),
+            basicEnemyPool: new ObjectPool(EnemyBase, 100, {
+                hp: 10, speed: 100, damage: 5, color: '#ff0044', name: 'Basic', size: 30
+            }),
+            fastEnemyPool: new ObjectPool(EnemyBase, 50, {
+                hp: 5, speed: 200, damage: 3, color: '#ffff00', name: 'Fast', size: 30
+            }),
         }
     }
 
@@ -36,6 +40,9 @@ export class GameEngine {
         this.upgradeManager.init();
 
         this.player.init();
+        Object.values(this.enemyPools).forEach(pool => {
+            pool.init();
+        });
 
         let lastTime = performance.now();
         const loop = (currentTime) => {

@@ -5,14 +5,33 @@ export class Player {
         this.renderer = engine.renderer;
         this.x = 0;
         this.y = 0;
-        this.speed = 300;
-        this.size = 45;
+        this.speed = 0;
+        this.size = 50;
+
     }
 
     init(x = 400, y = 300) {
-        // Inicializációs logika, pl. sprite betöltése
+
         this.x = x;
         this.y = y;
+        this.isActive = true;
+
+        this.gameData = this.engine.saveManager.gameData;
+        this.inventory = this.engine.saveManager.saveState.inventory;
+
+        const getStatValue = (statKey) => {
+            const statData = this.gameData.playerUpgrades[statKey];
+            const currentLevel = this.inventory.playerUpgrades[statKey];
+
+            if (!statData || !currentLevel) return null;
+            return statData.baseValue + ((currentLevel - 1) * statData.inc);
+        };
+
+        // --- STATISZTIKÁK BEÁLLÍTÁSA ---
+        this.maxHp = getStatValue('hp');
+        this.speed = getStatValue('speed');
+
+        this.hp = this.maxHp;
     }
 
     update(deltaTime) {
