@@ -75,11 +75,10 @@ export class Renderer {
 
         this.ctx.save();
 
-        // --- LETISZTULT KAMERA (Smooth Follow) ---
         if (this.engine.gameDirector.cameraFollowPlayer) {
             // 1. Kiszámoljuk a "Célpontot" (ahol a kamerának lennie kellene, hogy középen legyél)
-            let targetX = (player.x + 25) - (this.gameCanvas.width / 2);
-            let targetY = (player.y + 25) - (this.gameCanvas.height / 2);
+            let targetX = (player.x + player.size / 2) - (this.gameCanvas.width / 2);
+            let targetY = (player.y + player.size / 2) - (this.gameCanvas.height / 2);
 
             // 2. Korlátozzuk a célpontot a pálya széléhez (Clamp)
             const mapW = this.engine.gameDirector.mapWidth;
@@ -87,8 +86,6 @@ export class Renderer {
             targetX = Math.max(0, Math.min(targetX, mapW - this.gameCanvas.width));
             targetY = Math.max(0, Math.min(targetY, mapH - this.gameCanvas.height));
 
-            // 3. A VARÁZSLAT (Lerp): A kamera jelenlegi pozíciójához hozzáadjuk a távolság 10%-át.
-            // Ettől a kamera selymesen lágyan, egy kis csúszással fog követni!
             this.camX += (targetX - this.camX) * 0.1;
             this.camY += (targetY - this.camY) * 0.1;
 
@@ -98,7 +95,6 @@ export class Renderer {
             this.camX = 0;
             this.camY = 0;
         }
-        // -----------------------------------------
 
         const mapW = this.engine.gameDirector.mapWidth;
         const mapH = this.engine.gameDirector.mapHeight;
@@ -118,7 +114,7 @@ export class Renderer {
 
         // 3. Játékos kirajzolása
         this.ctx.fillStyle = '#00ffcc';
-        this.ctx.fillRect(player.x, player.y, 50, 50);
+        this.ctx.fillRect(player.x, player.y, player.size, player.size);
 
         this.ctx.restore();
     }

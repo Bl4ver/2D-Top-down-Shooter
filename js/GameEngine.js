@@ -1,4 +1,4 @@
-import { Renderer } from "./core/Renderer.js";
+import { Renderer } from "./core/renderer.js";
 import { LangManager } from "./managers/langManager.js";
 import { InputManager } from "./managers/inputManager.js";
 import { UiManager } from "./managers/uiManager.js";

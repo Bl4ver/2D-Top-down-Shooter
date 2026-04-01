@@ -6,7 +6,7 @@ export class Player {
         this.x = 0;
         this.y = 0;
         this.speed = 300;
-        this.size = 50;
+        this.size = 45;
     }
 
     init(x = 400, y = 300) {

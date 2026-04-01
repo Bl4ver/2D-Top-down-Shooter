@@ -1,8 +1,12 @@
+import { WaveManager } from "../managers/WaveManager.js";
+
 export class GameDirector {
     constructor(engine) {
         this.engine = engine;
         this.currentState = "idle"; // idle, playing, paused, gameover
         this.gameMode = null; // normal, endless, etc.
+
+        this.waveManager = new WaveManager(this.engine);
 
         this.cameraFollowPlayer = false;
         this.mapWidth = 0;
@@ -21,6 +25,9 @@ export class GameDirector {
             this.mapWidth = 1920;
             this.mapHeight = 1080;
             this.cameraFollowPlayer = false;
+
+            console.log(this.engine.enemyPools.basicEnemyPool.get())
+            // this.engine.enemyPools.basicEnemyPool.get().init(10, 10)
         }
 
         
@@ -28,12 +35,14 @@ export class GameDirector {
         const startY = (this.mapHeight / 2) - this.engine.player.size / 2;
 
         this.engine.player.init(startX, startY);
+        this.waveManager.init();
     }
 
 
    update(deltaTime) {
         if (this.currentState === "playing") {
             this.engine.player.update(deltaTime);
+            this.waveManager.update(deltaTime)
             
             if (Math.random() < 0.05) {
                 console.log(`Játékos pozíció: X=${this.engine.player.x}, Y=${this.engine.player.y}`);

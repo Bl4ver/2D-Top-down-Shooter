@@ -3,6 +3,10 @@ export class ObjectPool {
         this.type = type;
         this.pool = [];
         this.quantity = quantity;
+
+        for (let i = 0; i <= quantity; i++) {
+            this.pool.push(new this.type());
+        }
     }
 
     init() {
@@ -25,6 +29,7 @@ export class ObjectPool {
         let item;
         if (this.pool.length > 0) {
             item = this.pool.find(item => item.isActive === false)
+            console.log("item", item)
             if (!item) {
                 this.pool.push(new this.type)
                 item = this.pool[this.pool.length - 1];

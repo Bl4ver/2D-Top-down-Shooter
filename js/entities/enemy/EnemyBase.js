@@ -1,12 +1,12 @@
 export class EnemyBase {
     constructor(stats) {
         this.isActive = false;
-        this.maxHp = stats.hp;
-        this.hp = this.maxHp;
-        this.speed = stats.speed;
-        this.damage = stats.damage;
-        this.color = stats.color;
-        this.name = stats.name;
+        this.maxHp;
+        this.hp;
+        this.speed;
+        this.damage;
+        this.color;
+        this.name;
         this.x = 0;
         this.y = 0;
     }
@@ -15,6 +15,13 @@ export class EnemyBase {
         this.x = x;
         this.y = y;
         this.isActive = true;
+
+        this.maxHp = stats.hp;
+        this.hp = this.maxHp;
+        this.speed = stats.speed;
+        this.damage = stats.damage;
+        this.color = stats.color;
+        this.name = stats.name;
     }
 
     update(player, deltaTime) {
