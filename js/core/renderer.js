@@ -130,9 +130,70 @@ export class Renderer {
                     this.ctx.shadowBlur = 15;
                     this.ctx.lineWidth = 2;
 
-                    // Ellenség kirajzolása
-                    this.ctx.strokeRect(enemy.x, enemy.y, enemy.size, enemy.size);
+                    const eSize = enemy.size || 40; // ?
 
+                    // Ellenség kirajzolása
+                    this.ctx.strokeRect(enemy.x, enemy.y, eSize, eSize);
+
+                    this.ctx.restore();
+                }
+            });
+        });
+
+        this.ctx.restore();
+    }
+
+    renderMinimap() {
+        const minimapSize = 200;
+        const padding = 20;
+        
+        // 1. MÉRETARÁNY (Scale) kiszámítása
+        const scaleX = minimapSize / this.engine.gameDirector.mapWidth;  // pl: 0.02
+        const scaleY = minimapSize / this.engine.gameDirector.mapHeight; // pl: 0.02
+
+        // 2. MINIMAP POZÍCIÓJA a képernyőn (jobb alsó sarok)
+        const miniMapPosX = this.gameCanvas.width - minimapSize - padding;
+        const miniMapPosY = this.gameCanvas.height - minimapSize - padding;
+
+        // 3. MINIMAP HÁTTÉR ÉS KERET RAJZOLÁSA
+        this.ctx.save();
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.fillRect(miniMapPosX, miniMapPosY, minimapSize, minimapSize);
+        this.ctx.strokeStyle = '#00d9ff';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(miniMapPosX, miniMapPosY, minimapSize, minimapSize);
+        this.ctx.restore();
+
+        // 4. JÁTÉKOS PONT KISZÁMÍTÁSA A RADARON
+        const player = this.engine.player;
+        
+        // Játékos közepe a VILÁGBAN * Méretarány
+        const playerDotX = (player.x + player.size / 2) * scaleX;
+        const playerDotY = (player.y + player.size / 2) * scaleY;
+
+        // Végleges képernyő-koordináta = Minimap sarka + Pont helye a radaron
+        const playerMiniX = miniMapPosX + playerDotX;
+        const playerMiniY = miniMapPosY + playerDotY;
+
+        // 5. JÁTÉKOS RAJZOLÁSA
+        this.ctx.save();
+        this.ctx.fillStyle = '#00d9ff';
+        this.ctx.fillRect(playerMiniX - 5, playerMiniY - 5, 10, 10); 
+        this.ctx.restore();
+
+        // 6. ELLENSÉGEK RAJZOLÁSA
+        Object.values(this.engine.enemyPools).forEach(pool => {
+            pool.pool.forEach(enemy => {
+                if (enemy.isActive) {
+                    const enemyDotX = (enemy.x + enemy.size / 2) * scaleX;
+                    const enemyDotY = (enemy.y + enemy.size / 2) * scaleY;
+
+                    const enemyMiniX = miniMapPosX + enemyDotX;
+                    const enemyMiniY = miniMapPosY + enemyDotY;
+
+                    this.ctx.save();
+                    this.ctx.fillStyle = enemy.color;
+                    this.ctx.fillRect(enemyMiniX - 3, enemyMiniY - 3, 6, 6); 
                     this.ctx.restore();
                 }
             });

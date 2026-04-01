@@ -55,6 +55,10 @@ export class GameEngine {
             // 2. KÉPERNYŐ RAJZOLÁSA
             if (this.gameDirector.currentState === "playing") {
                 this.renderer.renderEntities();
+
+                if (this.gameDirector.gameMode) { // === "normal"
+                    this.renderer.renderMinimap();
+                }
             }
 
             requestAnimationFrame(loop);

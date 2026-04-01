@@ -40,7 +40,6 @@ export class GameDirector {
 
         for (let i = 0; i < 5; i++) {
             this.spawnEnemy('basicEnemyPool');
-            console.log(`Spawned enemy at: X=${this.engine.enemyPools.basicEnemyPool.pool[i].x}, Y=${this.engine.enemyPools.basicEnemyPool.pool[i].y}`);
         }
     }
 

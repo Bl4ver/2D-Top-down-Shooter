@@ -25,6 +25,8 @@ export class EnemyBase {
         this.color = this.stats.color;
         this.name = this.stats.name;
         this.size = this.stats.size;
+
+        console.log(x, y)
     }
 
     update(player, deltaTime) {
