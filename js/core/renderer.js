@@ -73,14 +73,13 @@ export class Renderer {
         const player = this.engine.player;
         if (!player) return;
 
+        // 1. ÁLLAPOT MENTÉSE (Eltolás előtt)
         this.ctx.save();
 
         if (this.engine.gameDirector.cameraFollowPlayer) {
-            // 1. Kiszámoljuk a "Célpontot" (ahol a kamerának lennie kellene, hogy középen legyél)
             let targetX = (player.x + player.size / 2) - (this.gameCanvas.width / 2);
             let targetY = (player.y + player.size / 2) - (this.gameCanvas.height / 2);
 
-            // 2. Korlátozzuk a célpontot a pálya széléhez (Clamp)
             const mapW = this.engine.gameDirector.mapWidth;
             const mapH = this.engine.gameDirector.mapHeight;
             targetX = Math.max(0, Math.min(targetX, mapW - this.gameCanvas.width));
@@ -89,9 +88,9 @@ export class Renderer {
             this.camX += (targetX - this.camX) * 0.1;
             this.camY += (targetY - this.camY) * 0.1;
 
+            // Kamera eltolás alkalmazása MINDENRE, ami ezután jön
             this.ctx.translate(-this.camX, -this.camY);
         } else {
-            // Challenge módban nincs kamera mozgás
             this.camX = 0;
             this.camY = 0;
         }
@@ -116,37 +115,59 @@ export class Renderer {
         this.ctx.fillStyle = '#00ffcc';
         this.ctx.fillRect(player.x, player.y, player.size, player.size);
 
-        this.ctx.restore();
-
         // 4. Ellenségek kirajzolása
         Object.values(this.engine.enemyPools).forEach(pool => {
             pool.pool.forEach(enemy => {
-                if (enemy.isActive) {
-                    this.ctx.save();
+                if (enemy.isActive
+                    && enemy.x >= this.camX - 100 && enemy.x <= this.camX + this.gameCanvas.width + 100
+                    && enemy.y >= this.camY - 100 && enemy.y <= this.camY + this.gameCanvas.height + 100) {
+                    
+                    // Csak az adott ellenség stílusának mentése
+                    this.ctx.save(); 
 
-                    // Neon effekt beállítása
                     this.ctx.strokeStyle = enemy.color;
                     this.ctx.shadowColor = enemy.color;
                     this.ctx.shadowBlur = 15;
                     this.ctx.lineWidth = 2;
 
-                    const eSize = enemy.size || 40; // ?
-
-                    // Ellenség kirajzolása
+                    const eSize = enemy.size || 40;
                     this.ctx.strokeRect(enemy.x, enemy.y, eSize, eSize);
 
-                    this.ctx.restore();
+                    // Adott ellenség stílusának visszaállítása
+                    this.ctx.restore(); 
                 }
             });
         });
 
+        // 5. Lövedékek kirajzolása
+        this.engine.projectilePool.pool.forEach(projectile => {
+            if (projectile.isActive
+                && projectile.x >= this.camX - 50 && projectile.x <= this.camX + this.gameCanvas.width + 50
+                && projectile.y >= this.camY - 50 && projectile.y <= this.camY + this.gameCanvas.height + 50) {
+                
+                // Csak az adott lövedék stílusának mentése
+                this.ctx.save();
+
+                this.ctx.fillStyle = projectile.color || '#ffffff';
+                this.ctx.shadowColor = projectile.color || '#ffffff';
+                this.ctx.shadowBlur = 10;
+
+                const pSize = projectile.size || 10;
+                this.ctx.fillRect(projectile.x, projectile.y, pSize, pSize);
+
+                // Adott lövedék stílusának visszaállítása
+                this.ctx.restore();
+            }
+        });
+
+        // VÉGLEGES RESTORE: Itt állítjuk vissza az eredeti állapotot (töröljük a translate-et a következő frame-hez)
         this.ctx.restore();
     }
 
     renderMinimap() {
         const minimapSize = 200;
         const padding = 20;
-        
+
         // 1. MÉRETARÁNY (Scale) kiszámítása
         const scaleX = minimapSize / this.engine.gameDirector.mapWidth;  // pl: 0.02
         const scaleY = minimapSize / this.engine.gameDirector.mapHeight; // pl: 0.02
@@ -166,7 +187,7 @@ export class Renderer {
 
         // 4. JÁTÉKOS PONT KISZÁMÍTÁSA A RADARON
         const player = this.engine.player;
-        
+
         // Játékos közepe a VILÁGBAN * Méretarány
         const playerDotX = (player.x + player.size / 2) * scaleX;
         const playerDotY = (player.y + player.size / 2) * scaleY;
@@ -178,7 +199,7 @@ export class Renderer {
         // 5. JÁTÉKOS RAJZOLÁSA
         this.ctx.save();
         this.ctx.fillStyle = '#00d9ff';
-        this.ctx.fillRect(playerMiniX - 5, playerMiniY - 5, 10, 10); 
+        this.ctx.fillRect(playerMiniX - 5, playerMiniY - 5, 10, 10);
         this.ctx.restore();
 
         // 6. ELLENSÉGEK RAJZOLÁSA
@@ -193,10 +214,26 @@ export class Renderer {
 
                     this.ctx.save();
                     this.ctx.fillStyle = enemy.color;
-                    this.ctx.fillRect(enemyMiniX - 3, enemyMiniY - 3, 6, 6); 
+                    this.ctx.fillRect(enemyMiniX - 3, enemyMiniY - 3, 6, 6);
                     this.ctx.restore();
                 }
             });
+        });
+
+        // 7. LÖVEDÉKEK RAJZOLÁSA
+        this.engine.projectilePool.pool.forEach(projectile => {
+            if (projectile.isActive) {
+                const projDotX = (projectile.x + projectile.size / 2) * scaleX;
+                const projDotY = (projectile.y + projectile.size / 2) * scaleY;
+
+                const projMiniX = miniMapPosX + projDotX;
+                const projMiniY = miniMapPosY + projDotY;
+
+                this.ctx.save();
+                this.ctx.fillStyle = projectile.color || '#ffffff';
+                this.ctx.fillRect(projMiniX - 2, projMiniY - 2, 4, 4);
+                this.ctx.restore();
+            }
         });
     }
 

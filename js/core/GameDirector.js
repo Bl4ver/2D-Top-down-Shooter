@@ -1,4 +1,5 @@
 import { WaveManager } from "../managers/WaveManager.js";
+import { CombatManager } from "../managers/CombatManager.js";
 
 export class GameDirector {
     constructor(engine) {
@@ -7,6 +8,7 @@ export class GameDirector {
         this.gameMode = null; // normal, endless, etc.
 
         this.waveManager = new WaveManager(this.engine);
+        this.combatManager = new CombatManager(this.engine);
 
         this.cameraFollowPlayer = false;
         this.mapWidth = 0;
@@ -68,6 +70,19 @@ export class GameDirector {
                     }
                 });
             });
+
+            this.engine.projectilePool.pool.forEach(projectile => {
+                if (projectile.isActive) {
+                    projectile.update(deltaTime);
+
+                    if (projectile.x < 0 || projectile.x > this.engine.gameDirector.mapWidth ||
+                        projectile.y < 0 || projectile.y > this.engine.gameDirector.mapHeight) {
+                        projectile.isActive = false;
+                    }
+                }
+            });
+
+            this.combatManager.update(deltaTime);
         }
     }
 

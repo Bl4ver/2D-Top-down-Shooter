@@ -386,7 +386,7 @@
             },
             "speed": {
                 "name": "Mozgási sebesség",
-                "baseValue": 150,
+                "baseValue": 400,
                 "inc": 10,
                 "baseCost": 200
             },

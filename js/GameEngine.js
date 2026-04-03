@@ -7,7 +7,8 @@ import { UpgradeManager } from "./managers/UpgradeManager.js";
 import { EnemyBase } from "./entities/enemy/EnemyBase.js";
 import { ObjectPool } from "./core/ObjectPool.js";
 import { GameDirector } from "./core/GameDirector.js";
-import { Player } from "./entities/player.js";  //Player.js ??
+import { Player } from "./entities/Player.js";
+import { Projectile } from "./entities/Projectile.js";
 
 
 export class GameEngine {
@@ -30,6 +31,8 @@ export class GameEngine {
                 hp: 5, speed: 200, damage: 3, color: '#ffff00', name: 'Fast', size: 30
             }),
         }
+
+        this.projectilePool = new ObjectPool(Projectile, 200);
     }
 
     async start() {
