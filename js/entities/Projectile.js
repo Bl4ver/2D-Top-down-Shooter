@@ -21,6 +21,7 @@ export class Projectile {
         this.size = size;
         this.damage = damage;
         this.isActive = true;
+        this.isEnemyProjectile = false;
 
         // 1. Kiszámoljuk a különbséget
         let dx = targetX - this.x;

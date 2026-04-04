@@ -32,6 +32,7 @@ export class SaveManager {
         if (this.saveState) {
             localStorage.setItem("neon_saveData", JSON.stringify(this.saveState));
             console.log("A játékállás elmentve!");
+            console.log(this.saveState);
         }
     }
 

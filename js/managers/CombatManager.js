@@ -37,12 +37,8 @@ export class CombatManager {
                         projectile.y < enemy.y + enemy.size &&
                         projectile.y + projectile.size > enemy.y) {
 
-                        enemy.hp -= projectile.damage;
+                        enemy.takeDamage(projectile.damage);
                         this.engine.projectilePool.release(projectile);
-
-                        if (enemy.hp <= 0) {
-                            pool.release(enemy);
-                        }
                     }
                 });
             });

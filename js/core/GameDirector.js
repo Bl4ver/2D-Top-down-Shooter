@@ -13,20 +13,23 @@ export class GameDirector {
         this.cameraFollowPlayer = false;
         this.mapWidth = 0;
         this.mapHeight = 0;
+        this.score = 0;
     }
 
     init(gameMode = "normal") {
         this.gameMode = gameMode;
         console.log("Game mode:", this.gameMode);
 
-        if (this.gameMode === "normal") {
+        if (this.gameMode === "normal") {           // HA VÉGE A JÁTÉKNAK MINDEN ENEMYT, BULLLET-et DEALTIVÁLNI KELL!
             this.mapWidth = 10000;
             this.mapHeight = 10000;
             this.cameraFollowPlayer = true;
+            this.waveManager.init();
         } else if (this.gameMode === "challenge") {
             this.mapWidth = window.innerWidth;
             this.mapHeight = window.innerHeight;
             this.cameraFollowPlayer = false;
+            this.waveManager.init();
 
 
             console.log(this.engine.enemyPools.basicEnemyPool.get())
@@ -83,6 +86,7 @@ export class GameDirector {
             });
 
             this.combatManager.update(deltaTime);
+            this.waveManager.update(deltaTime);
         }
     }
 
