@@ -32,8 +32,6 @@ export class GameDirector {
             this.waveManager.init();
 
 
-            console.log(this.engine.enemyPools.basicEnemyPool.get())
-            this.engine.enemyPools.basicEnemyPool.get().init(10, 10)
         }
 
 
@@ -42,10 +40,6 @@ export class GameDirector {
 
         this.engine.player.init(startX, startY);
         this.waveManager.init();
-
-        for (let i = 0; i < 5; i++) {
-            this.spawnEnemy('basicEnemyPool');
-        }
     }
 
 
@@ -96,10 +90,45 @@ export class GameDirector {
 
         const enemy = pool.get();
 
-        const randomX = Math.random() * this.mapWidth;
-        const randomY = Math.random() * this.mapHeight;
+        const camX = this.engine.renderer.camX || 0;
+        const camY = this.engine.renderer.camY || 0;
+        const canvasW = this.engine.renderer.gameCanvas.width;
+        const canvasH = this.engine.renderer.gameCanvas.height;
+        
+        const margin = 100; 
+        
+        let spawnX, spawnY;
 
-        enemy.init(randomX, randomY);
+        // 0: Fent, 1: Lent, 2: Baloldalt, 3: Jobboldalt
+        const side = Math.floor(Math.random() * 4);
+
+        if (side === 0) {
+            // FENT: X bárhol lehet a kamera szélességében, Y a kamera fölött van
+            spawnX = camX + Math.random() * canvasW;
+            spawnY = camY - margin;
+        } else if (side === 1) {
+            // LENT: X bárhol lehet a kamera szélességében, Y a kamera alatt van
+            spawnX = camX + Math.random() * canvasW;
+            spawnY = camY + canvasH + margin;
+        } else if (side === 2) {
+            // BAL: X a kamerától balra van, Y bárhol lehet a kamera magasságában
+            spawnX = camX - margin;
+            spawnY = camY + Math.random() * canvasH;
+        } else {
+            // JOBB: X a kamerától jobbra van, Y bárhol lehet a kamera magasságában
+            spawnX = camX + canvasW + margin;
+            spawnY = camY + Math.random() * canvasH;
+        }
+
+        // 3. HATÁRVONALAK (Clamp) VIZSGÁLATA
+        // Nagyon fontos: Ha a játékos a pálya legszélén áll, a fenti matek kivenne a pályáról.
+        // Ezért biztosítjuk, hogy a spawnX és spawnY ne mehessen 0 alá, és ne lépje túl a térkép méretét!
+        // Levonjuk az enemy.size-t, hogy maga az ellenség teste is belül maradjon.
+        const eSize = enemy.size || 30;
+        spawnX = Math.max(0, Math.min(spawnX, this.mapWidth - eSize));
+        spawnY = Math.max(0, Math.min(spawnY, this.mapHeight - eSize));
+
+        enemy.init(spawnX, spawnY);
     }
 
     changeState(newState) {

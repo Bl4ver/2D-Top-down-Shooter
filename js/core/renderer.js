@@ -178,6 +178,7 @@ export class Renderer {
     }
 
     renderMinimap() {
+        if (!this.engine.gameDirector.cameraFollowPlayer) return;
         const minimapSize = 200;
         const padding = 20;
 

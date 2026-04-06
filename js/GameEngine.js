@@ -56,7 +56,7 @@ export class GameEngine {
             if (this.gameDirector.currentState === "playing") {
                 this.renderer.renderEntities();
 
-                if (this.gameDirector.gameMode) { // === "normal"
+                if (this.gameDirector.gameMode) {
                     this.renderer.renderMinimap();
                 }
             }

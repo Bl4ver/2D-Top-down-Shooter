@@ -32,8 +32,7 @@ export class WaveManager {
             this.currentWave++;
             
             // Nehezítés: minden hullámnál 200 ms-el gyorsabban jönnek az ellenségek
-            // (A Math.max biztosítja, hogy 500 ms-nél ne legyenek gyorsabbak, különben lefagy a gép)
-            this.spawnInterval = Math.max(500, this.spawnInterval - 200);
+            this.spawnInterval = Math.max(100, this.spawnInterval - 200);
             
             console.log(`--- HULLÁM ${this.currentWave} INDUL --- (Spawn: ${this.spawnInterval}ms)`);
         }
