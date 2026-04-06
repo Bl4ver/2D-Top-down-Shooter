@@ -7,6 +7,10 @@ export class Renderer {
         this.ctx = this.gameCanvas.getContext('2d');
         this.camX = 0;
         this.camY = 0;
+
+        window.addEventListener('resize', () => {
+            this.handleResize();
+        });
     }
 
     translateNode(node) {
@@ -32,6 +36,15 @@ export class Renderer {
         const clone = template.content.cloneNode(true);
         this.translateNode(clone);
         this.uiLayer.appendChild(clone);
+    }
+
+    handleResize() {
+        if (this.gameCanvas && this.engine.gameDirector.currentState === "playing") {
+            this.gameCanvas.width = window.innerWidth;
+            this.gameCanvas.height = window.innerHeight;
+            
+            this.centerCameraOnPlayer();
+        }
     }
 
     setupGameScreen() {
