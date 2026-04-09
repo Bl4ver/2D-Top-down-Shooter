@@ -16,7 +16,53 @@
     <div id="ui-layer">
     </div>
 
-    <template id="tpl-mode-challenge">
+    <template id="tpl-mode-game">
+        <div class="hud-top-container">
+                <div class="hud-left">
+                    <div class="bar-item pink-theme">
+                        <div class="bar-text">
+                            <label>INTEGRITÁS</label>
+                            <span id="hp-val">100%</span>
+                        </div>
+                        <div class="bar-line">
+                            <div id="hp-fill" class="fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    <div class="bar-item cyan-theme">
+                        <div class="bar-text">
+                            <label>PAJZS</label>
+                            <span id="shield-val">0%</span>
+                        </div>
+                        <div class="bar-line">
+                            <div id="shield-fill" class="fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hud-center">
+                    <div id="run-time-display" class="run-time">00:00</div>
+
+                    <div id="score" class="digital-score">000000</div>
+                    <div class="money-row">
+                        <div class="coin-icon"></div>
+                        <span id="credits-value">0</span>
+                    </div>
+                </div>
+
+                <div class="hud-right">
+                    <div class="level-container">
+                        <div id="btn-pause" class="pause-diamond">
+                            <div class="pause-icon"></div>
+                        </div>
+                        <div class="level-label">SZINT 01</div>
+                    </div>
+                    <div id="fps-display">
+                        FPS: 60
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </template>
 
     <template id="tpl-game-challenges">
@@ -35,7 +81,7 @@
         <section class="ui-screen">
             <h1 class="title" data-lang="title-main">NEON</h1>
             <h1 class="altTitle" data-lang="title-sub">Overdrive</h1>
-            <p class="description">- Cybercore Protocol: v0.6.4 -</p>
+            <p class="description">- Cybercore Protocol: v0.6.5 -</p>
             <div id="menu-buttons">
                 <button class="button-menu" id="btn-game-modes" data-lang="btn-gameModes">GAME MODES</button>
                 <button class="button-menu" id="btn-settings" data-lang="btn-settings">SETTINGS</button>

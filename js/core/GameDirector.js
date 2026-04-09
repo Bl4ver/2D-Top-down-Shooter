@@ -30,8 +30,6 @@ export class GameDirector {
             this.mapHeight = window.innerHeight;
             this.cameraFollowPlayer = false;
             this.waveManager.init();
-
-
         }
 
 
@@ -81,6 +79,8 @@ export class GameDirector {
 
             this.combatManager.update(deltaTime);
             this.waveManager.update(deltaTime);
+
+            this.engine.renderer.update(deltaTime);
         }
     }
 
@@ -94,9 +94,9 @@ export class GameDirector {
         const camY = this.engine.renderer.camY || 0;
         const canvasW = this.engine.renderer.gameCanvas.width;
         const canvasH = this.engine.renderer.gameCanvas.height;
-        
-        const margin = 100; 
-        
+
+        const margin = 100;
+
         let spawnX, spawnY;
 
         // 0: Fent, 1: Lent, 2: Baloldalt, 3: Jobboldalt

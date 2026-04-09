@@ -64,7 +64,6 @@ export class GameEngine {
             requestAnimationFrame(loop);
         };
         requestAnimationFrame(loop);
-        this.renderer.loadScreen('tpl-main-menu'); // Menü megjelenítése
     }
 
     initEnemyPools() {

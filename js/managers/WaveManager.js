@@ -17,7 +17,7 @@ export class WaveManager {
         this.spawnTimer = 0;
         this.waveTimer = 0;
         this.spawnInterval = 2000; // Alaphelyzetbe állítjuk a nehézséget
-        console.log(`--- HULLÁM ${this.currentWave} INDUL ---`);
+        //console.log(`--- HULLÁM ${this.currentWave} INDUL ---`);
     }
 
     update(deltaTime) {
@@ -34,7 +34,7 @@ export class WaveManager {
             // Nehezítés: minden hullámnál 200 ms-el gyorsabban jönnek az ellenségek
             this.spawnInterval = Math.max(100, this.spawnInterval - 200);
             
-            console.log(`--- HULLÁM ${this.currentWave} INDUL --- (Spawn: ${this.spawnInterval}ms)`);
+            // console.log(`--- HULLÁM ${this.currentWave} INDUL --- (Spawn: ${this.spawnInterval}ms)`);
         }
 
         // 2. ELLENSÉG SPAWNOLÁSA

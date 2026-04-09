@@ -453,3 +453,192 @@ input[type="range"] {
     visibility: visible;
     transform: translateX(0);
 }
+
+/* MARK: ASD */
+/* ==========================================
+   HUD FŐ KONTÉNER
+========================================== */
+.hud-top-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    /* Nagyon fontos: Az egér kattintások "átmennek" a HUD-on a Canvasra */
+    pointer-events: none; 
+    
+    font-family: 'Rajdhani', sans-serif;
+    color: #ffffff;
+    z-index: 100; /* Biztosítja, hogy minden felett legyen */
+}
+
+/* Oszlopok elrendezése */
+.hud-left, .hud-center, .hud-right {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hud-center {
+    align-items: center;
+}
+
+.hud-right {
+    align-items: flex-end;
+}
+
+/* ==========================================
+   BAL OLDAL: ÉLETERŐ ÉS PAJZS SÁVOK
+========================================== */
+.bar-item {
+    width: 250px;
+}
+
+.bar-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.bar-line {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+    overflow: hidden;
+    position: relative;
+}
+
+.fill {
+    height: 100%;
+    transition: width 0.2s ease-out; /* Sima animáció sebződéskor */
+}
+
+/* Témák (Neon effektek) */
+.pink-theme .bar-text {
+    color: #ff0044;
+    text-shadow: 0 0 8px #ff0044;
+}
+.pink-theme .bar-line {
+    border-color: rgba(255, 0, 68, 0.4);
+}
+.pink-theme .fill {
+    background: #ff0044;
+    box-shadow: 0 0 10px #ff0044, inset 0 0 5px rgba(255,255,255,0.5);
+}
+
+.cyan-theme .bar-text {
+    color: #00ffcc;
+    text-shadow: 0 0 8px #00ffcc;
+}
+.cyan-theme .bar-line {
+    border-color: rgba(0, 255, 204, 0.4);
+}
+.cyan-theme .fill {
+    background: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc, inset 0 0 5px rgba(255,255,255,0.5);
+}
+
+/* ==========================================
+   KÖZÉPSŐ RÉSZ: IDŐ, PONTSZÁM, PÉNZ
+========================================== */
+.run-time {
+    font-size: 24px;
+    color: #aaaaaa;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.digital-score {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    margin: 5px 0;
+}
+
+.money-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 10px #ffd700;
+}
+
+.coin-icon {
+    width: 18px;
+    height: 18px;
+    background: #ffd700;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffd700, inset -3px -3px 5px rgba(0,0,0,0.3);
+}
+
+/* ==========================================
+   JOBB OLDAL: FPS, SZINT ÉS SZÜNET GOMB
+========================================== */
+#fps-display {
+    font-size: 16px;
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc;
+}
+
+.level-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.level-label {
+    font-size: 28px;
+    font-weight: 800;
+    color: #b300ff; /* A json-ből vett basic ellenség színe */
+    text-shadow: 0 0 12px #b300ff;
+    letter-spacing: 2px;
+}
+
+/* Szünet gomb (Rombusz alakú) */
+.pause-diamond {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #b300ff;
+    transform: rotate(45deg); /* Rombusszá forgatjuk */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    
+    /* Visszakapcsoljuk a kattinthatóságot, hogy meg lehessen nyomni! */
+    pointer-events: auto; 
+    
+    transition: all 0.2s ease;
+    box-shadow: 0 0 10px rgba(179, 0, 255, 0.5);
+}
+
+.pause-diamond:hover {
+    background: rgba(179, 0, 255, 0.3);
+    box-shadow: 0 0 20px #b300ff;
+    transform: rotate(45deg) scale(1.1); /* Kicsit megnő hoverre */
+}
+
+/* A szünet ikon (két függőleges vonal) - visszforgatjuk egyenesre */
+.pause-icon {
+    width: 12px;
+    height: 16px;
+    transform: rotate(-45deg); 
+    border-left: 4px solid #ffffff;
+    border-right: 4px solid #ffffff;
+}

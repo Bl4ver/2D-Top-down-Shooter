@@ -33,6 +33,7 @@ export class Renderer {
             return;
         }
 
+        console.log(`Loading screen: ${templateId}`);
         const clone = template.content.cloneNode(true);
         this.translateNode(clone);
         this.uiLayer.appendChild(clone);
@@ -249,6 +250,26 @@ export class Renderer {
                 this.ctx.restore();
             }
         });
+    }
+
+    update(deltaTime) {
+        const scoreDisplay = document.getElementById('score');
+        const creditsDisplay = document.getElementById('credits-value');
+        const fpsDisplay = document.getElementById('fps-display');
+
+        if (scoreDisplay) {
+            scoreDisplay.textContent = this.engine.gameDirector.score.toString().padStart(6, '0');
+        }
+
+        if (creditsDisplay) {
+            creditsDisplay.textContent = this.engine.saveManager.saveState.coins;
+        }
+
+        if (fpsDisplay) {
+            if (Math.random() < 0.1) {
+                fpsDisplay.textContent = `FPS: ${Math.round(1 / deltaTime)}`;
+            }
+        }
     }
 
     updateScreenLanguage() {
