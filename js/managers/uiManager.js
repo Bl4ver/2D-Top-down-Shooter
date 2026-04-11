@@ -82,6 +82,10 @@ export class UiManager {
                         case "upgrades":
                             this.gameEngine.upgradeManager.loadUpgrades('playerUpgrades-container');
                             break;
+
+                        case "pause":
+                            this.gameEngine.renderer.loadScreen('tpl-pause-menu');
+                            break;
                     }
 
                     // Új képernyő (normál menük)
