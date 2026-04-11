@@ -43,7 +43,7 @@ export class Renderer {
         if (this.gameCanvas && this.engine.gameDirector.currentState === "playing") {
             this.gameCanvas.width = window.innerWidth;
             this.gameCanvas.height = window.innerHeight;
-            
+
             this.centerCameraOnPlayer();
         }
     }
@@ -135,9 +135,9 @@ export class Renderer {
                 if (enemy.isActive
                     && enemy.x >= this.camX - 100 && enemy.x <= this.camX + this.gameCanvas.width + 100
                     && enemy.y >= this.camY - 100 && enemy.y <= this.camY + this.gameCanvas.height + 100) {
-                    
+
                     // Csak az adott ellenség stílusának mentése
-                    this.ctx.save(); 
+                    this.ctx.save();
 
                     this.ctx.strokeStyle = enemy.color;
                     this.ctx.shadowColor = enemy.color;
@@ -148,7 +148,7 @@ export class Renderer {
                     this.ctx.strokeRect(enemy.x, enemy.y, eSize, eSize);
 
                     // Adott ellenség stílusának visszaállítása
-                    this.ctx.restore(); 
+                    this.ctx.restore();
                 }
             });
         });
@@ -156,21 +156,57 @@ export class Renderer {
         // 5. Lövedékek kirajzolása
         this.engine.projectilePool.pool.forEach(projectile => {
             if (projectile.isActive
-                && projectile.x >= this.camX - 50 && projectile.x <= this.camX + this.gameCanvas.width + 50
-                && projectile.y >= this.camY - 50 && projectile.y <= this.camY + this.gameCanvas.height + 50) {
-                
-                // Csak az adott lövedék stílusának mentése
+                && projectile.x >= this.camX - 100 && projectile.x <= this.camX + this.gameCanvas.width + 100
+                && projectile.y >= this.camY - 100 && projectile.y <= this.camY + this.gameCanvas.height + 100) {
+
                 this.ctx.save();
-
-                this.ctx.fillStyle = projectile.color || '#ffffff';
                 this.ctx.shadowColor = projectile.color || '#ffffff';
-                this.ctx.shadowBlur = 10;
+                this.ctx.shadowBlur = 15;
 
-                const pSize = projectile.size || 10;
-                this.ctx.fillRect(projectile.x, projectile.y, pSize, pSize);
+                if (projectile.movementType === "melee") {
+                    // Kard rajzolása
+                    this.ctx.beginPath();
+                    this.ctx.arc(
+                        projectile.x + projectile.size / 2, 
+                        projectile.y + projectile.size / 2, 
+                        projectile.size / 2, 
+                        projectile.angle - 1.2, 
+                        projectile.angle + 1.2
+                    );
+                    this.ctx.lineWidth = 10; // Vastagabb penge
+                    this.ctx.strokeStyle = projectile.color;
+                    this.ctx.lineCap = 'round';
+                    this.ctx.stroke();
+                } else {
+                    // Sima lövedék
+                    this.ctx.fillStyle = projectile.color || '#ffffff';
+                    const pSize = projectile.size || 10;
+                    this.ctx.fillRect(projectile.x, projectile.y, pSize, pSize);
+                }
 
-                // Adott lövedék stílusának visszaállítása
                 this.ctx.restore();
+            }
+        });
+
+        // 6. Részecskék kirajzolása
+        this.engine.particlePool.pool.forEach(p => {
+            if (p.isActive) {
+                this.ctx.save(); // Mentsük el a vászon állapotát
+
+                // Alpha (átlátszóság) beállítása (biztosítjuk, hogy 0 és 1 között maradjon)
+                this.ctx.globalAlpha = Math.max(0, Math.min(1, p.life));
+                this.ctx.fillStyle = p.color;
+
+                // Neon effekt a részecskékre is
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = p.color;
+
+                this.ctx.beginPath();
+                // ITT A JAVÍTÁS: Simán p.x és p.y, mert a ctx.translate már eltolta a kamerát!
+                this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                this.ctx.restore(); // Visszaállítás az eredeti állapotra
             }
         });
 
@@ -252,18 +288,46 @@ export class Renderer {
         });
     }
 
-    update(deltaTime) {
+    updatePlayerStats(hp, maxHp, shield, maxShield) {
+        const hpBar = document.getElementById('hp-fill');
+        const hpText = document.getElementById('hp-val');
+
+        const shieldBar = document.getElementById('shield-fill');
+        const shieldText = document.getElementById('shield-val');
+
+        const hpPercent = (hp / maxHp) * 100;
+        const shieldPercent = (shield / maxShield) * 100;
+
+        if (hpBar) {
+            hpBar.style.width = `${hpPercent}%`;
+        }
+
+        if (hpText) {
+            hpText.textContent = `${hpPercent.toFixed(1)}%`;
+        }
+
+        if (shieldBar) {
+            shieldBar.style.width = `${shieldPercent}%`;
+        }
+
+        if (shieldText) {
+            shieldText.textContent = `${shieldPercent.toFixed(1)}%`;
+        }
+    }
+
+    updateScoreAndCredits() {
         const scoreDisplay = document.getElementById('score');
         const creditsDisplay = document.getElementById('credits-value');
-        const fpsDisplay = document.getElementById('fps-display');
-
         if (scoreDisplay) {
             scoreDisplay.textContent = this.engine.gameDirector.score.toString().padStart(6, '0');
         }
-
         if (creditsDisplay) {
             creditsDisplay.textContent = this.engine.saveManager.saveState.coins;
         }
+    }
+
+    update(deltaTime) {
+        const fpsDisplay = document.getElementById('fps-display');
 
         if (fpsDisplay) {
             if (Math.random() < 0.1) {

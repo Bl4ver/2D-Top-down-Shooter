@@ -18,51 +18,86 @@
 
     <template id="tpl-mode-game">
         <div class="hud-top-container">
-                <div class="hud-left">
-                    <div class="bar-item pink-theme">
-                        <div class="bar-text">
-                            <label>INTEGRITÁS</label>
-                            <span id="hp-val">100%</span>
-                        </div>
-                        <div class="bar-line">
-                            <div id="hp-fill" class="fill" style="width: 100%;"></div>
-                        </div>
+            <div class="hud-left">
+                <div class="bar-item pink-theme">
+                    <div class="bar-text">
+                        <label>INTEGRITÁS</label>
+                        <span id="hp-val">100%</span>
                     </div>
-                    <div class="bar-item cyan-theme">
-                        <div class="bar-text">
-                            <label>PAJZS</label>
-                            <span id="shield-val">0%</span>
-                        </div>
-                        <div class="bar-line">
-                            <div id="shield-fill" class="fill" style="width: 0%;"></div>
-                        </div>
+                    <div class="bar-line">
+                        <div id="hp-fill" class="fill" style="width: 100%;"></div>
                     </div>
                 </div>
-
-                <div class="hud-center">
-                    <div id="run-time-display" class="run-time">00:00</div>
-
-                    <div id="score" class="digital-score">000000</div>
-                    <div class="money-row">
-                        <div class="coin-icon"></div>
-                        <span id="credits-value">0</span>
+                <div class="bar-item cyan-theme">
+                    <div class="bar-text">
+                        <label>PAJZS</label>
+                        <span id="shield-val">0%</span>
+                    </div>
+                    <div class="bar-line">
+                        <div id="shield-fill" class="fill" style="width: 0%;"></div>
                     </div>
                 </div>
-
-                <div class="hud-right">
-                    <div class="level-container">
-                        <div id="btn-pause" class="pause-diamond">
-                            <div class="pause-icon"></div>
-                        </div>
-                        <div class="level-label">SZINT 01</div>
-                    </div>
-                    <div id="fps-display">
-                        FPS: 60
-                    </div>
-                </div>
-
             </div>
+
+            <div class="hud-center">
+                <div id="run-time-display" class="run-time">00:00</div>
+
+                <div id="score" class="digital-score">000000</div>
+                <div class="money-row">
+                    <div class="coin-icon"></div>
+                    <span id="credits-value">0</span>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <div class="level-container">
+                    <div id="btn-pause" class="pause-diamond">
+                        <div class="pause-icon"></div>
+                    </div>
+                    <div class="level-label" id="level-label">SZINT 01</div>
+                </div>
+                <div id="fps-display">
+                    FPS: 60
+                </div>
+            </div>
+
         </div>
+        </div>
+    </template>
+
+    <template id="tpl-gameover-menu">
+        <section class="ui-screen gameover-screen">
+            <h1 class="title glitch-text" data-text="GAME OVER" data-lang="title-gameover">GAME OVER</h1>
+
+            <div class="cyber-panel gameover-panel">
+                <div class="stat-row margin-b-30">
+                    <span class="stat-name" data-lang="lbl-final-score">Végső Pontszám:</span>
+                    <span id="gameover-score" class="current-val neon-red-text">000000</span>
+                </div>
+                
+                <div id="new-highscore-badge" class="upgrade-preview margin-b-30" style="display: none;">
+                    ÚJ REKORD!
+                </div>
+
+                <div class="stat-row">
+                    <span class="stat-name" data-lang="lbl-enemies-killed">Elpusztított Ellenségek:</span>
+                    <span id="gameover-kills" class="current-val">0</span>
+                </div>
+
+                <div class="stat-row">
+                    <span class="stat-name" data-lang="lbl-coins-collected">Gyűjtött Kreditek:</span>
+                    <div class="stat-mid">
+                        <div class="coin-icon"></div>
+                        <span id="gameover-coins" class="current-val">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="menu-buttons">
+                <button class="button-menu btn-red-hover" id="btn-mode-normal" data-lang="btn-restart">ÚJRAKEZDÉS</button>
+                <button class="button-menu" id="btn-main-menu" data-lang="btn-exit">FŐMENÜ</button>
+            </div>
+        </section>
     </template>
 
     <template id="tpl-game-challenges">
@@ -81,7 +116,7 @@
         <section class="ui-screen">
             <h1 class="title" data-lang="title-main">NEON</h1>
             <h1 class="altTitle" data-lang="title-sub">Overdrive</h1>
-            <p class="description">- Cybercore Protocol: v0.6.5 -</p>
+            <p class="description">- Cybercore Protocol: v0.7 -</p>
             <div id="menu-buttons">
                 <button class="button-menu" id="btn-game-modes" data-lang="btn-gameModes">GAME MODES</button>
                 <button class="button-menu" id="btn-settings" data-lang="btn-settings">SETTINGS</button>
@@ -188,6 +223,18 @@
 
             <div id="menu-buttons">
                 <button class="button-menu" id="btn-back" data-lang="btn-back">BACK</button>
+            </div>
+        </section>
+    </template>
+
+    <template id="tpl-pause-menu">
+        <section class="ui-screen">
+            <h1 class="title" data-lang="title-pause">PAUSE</h1>
+
+            <div id="menu-buttons">
+                <button class="button-menu" id="btn-continue" data-lang="btn-continue">CONTINUE</button>
+                <button class="button-menu" id="btn-settings" data-lang="btn-settings">SETTINGS</button>
+                <button class="button-menu" id="btn-exit" data-lang="btn-exit">END RUN</button>
             </div>
         </section>
     </template>

@@ -20,8 +20,6 @@
 }
 
 body, html {
-    margin: 0;
-    padding: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -56,6 +54,7 @@ body, html {
     justify-content: center;
     align-items: center;
     pointer-events: auto;
+    backdrop-filter: blur(5px);
 }
 
 .scrollable-screen {
@@ -131,7 +130,7 @@ body, html {
     transform: scale(1.05);
 }
 
-/* MARK: TABS SYSTEM (UPGRADES & ENCYCLOPEDIA)
+/* MARK: TABS SYSTEM
 ----------------------------------- */
 .tabs {
     display: flex;
@@ -175,14 +174,14 @@ body, html {
     display: grid;
 }
 
-/* Alap grid a Kódex kártyáknak */
 .cards-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     margin-bottom: 40px;
 }
 
-/* Kódex kártya alap (Encyclopedia) */
+/* MARK: ENCYCLOPEDIA CARDS
+----------------------------------- */
 .upgrade-card {
     background: var(--bg-light-dark);
     border: 1px solid var(--neon-blue);
@@ -201,6 +200,11 @@ body, html {
     box-shadow: 0 0 20px var(--neon-blue);
     border-color: var(--neon-light-blue);
 }
+
+.upgrade-card.theme-pink { border-color: var(--neon-pink); }
+.upgrade-card.theme-yellow { border-color: var(--neon-yellow); }
+.upgrade-card.theme-purple { border-color: var(--neon-purple); }
+.upgrade-card.theme-blue { border-color: var(--neon-blue); }
 
 /* MARK: BEÁLLÍTÁSOK PANELEI
 ----------------------------------- */
@@ -247,20 +251,8 @@ input[type="range"] {
     font-size: 1rem;
 }
 
-/* THEME BORDEREK KÁRTYÁKHOZ (Kódex) */
-.upgrade-card.theme-pink { border-color: var(--neon-pink); }
-.upgrade-card.theme-yellow { border-color: var(--neon-yellow); }
-.upgrade-card.theme-purple { border-color: var(--neon-purple); }
-.upgrade-card.theme-blue { border-color: var(--neon-blue); }
-
 /* MARK: FEGYVERTÁR / UPGRADES
 ----------------------------------- */
-.money-row {
-    margin: 20px 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 .tab-content.active.cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
@@ -276,29 +268,14 @@ input[type="range"] {
     border-radius: 4px;
     padding: 25px;
     width: 100%;
-    max-width: none;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 15px rgba(0,0,0,0.8);
-    cursor: default;
-}
-
-.entity-card {
-    background: #0a0a0a;
-    border: none;
-    border-left: 4px solid var(--neon-purple);
-    border-radius: 4px;
-    padding: 25px;
-    width: 100%;
     max-width: 500px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 15px rgba(0,0,0,0.8);
-    cursor: default; /* Itt nem az egész kártya kattintható */
+    cursor: default; 
 }
 
 .entity-card:hover {
-    transform: none; /* Kikapcsoljuk az alap kártya ugrálását */
     box-shadow: 0 0 15px rgba(0,0,0,0.8);
     border-left-color: var(--neon-purple);
 }
@@ -306,10 +283,6 @@ input[type="range"] {
 .entity-card.locked {
     border-left-color: var(--neon-gray);
     opacity: 0.6;
-}
-
-.entity-card.locked:hover {
-    border-left-color: var(--neon-gray);
 }
 
 .entity-title {
@@ -322,7 +295,6 @@ input[type="range"] {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-/* FELSZERELVE GOMB LOGIKA */
 .equip-btn {
     width: 100%;
     padding: 15px;
@@ -361,7 +333,6 @@ input[type="range"] {
     cursor: not-allowed;
 }
 
-/* SOROK DIZÁJNJA (Sebzés, FireRate stb.) */
 .stat-row {
     display: flex;
     justify-content: space-between;
@@ -403,7 +374,6 @@ input[type="range"] {
     font-weight: bold;
 }
 
-/* Zöld felvillanó preview */
 .upgrade-preview {
     color: var(--neon-green);
     font-weight: bold;
@@ -416,7 +386,6 @@ input[type="range"] {
     text-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
 }
 
-/* A LILA ÁRGOMB */
 .stat-right {
     display: flex;
     justify-content: flex-end;
@@ -454,47 +423,51 @@ input[type="range"] {
     transform: translateX(0);
 }
 
-/* MARK: ASD */
-/* ==========================================
-   HUD FŐ KONTÉNER
-========================================== */
+/* MARK: HUD
+----------------------------------- */
 .hud-top-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    padding: 20px 30px;
+    padding: 15px 30px 30px 30px;
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    
-    /* Nagyon fontos: Az egér kattintások "átmennek" a HUD-on a Canvasra */
     pointer-events: none; 
-    
     font-family: 'Rajdhani', sans-serif;
     color: #ffffff;
-    z-index: 100; /* Biztosítja, hogy minden felett legyen */
+    z-index: 100;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-/* Oszlopok elrendezése */
-.hud-left, .hud-center, .hud-right {
+.hud-left {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    background: rgba(20, 20, 20, 0.5);
+    padding: 15px 20px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
-.hud-center {
-    align-items: center;
+.hud-center { 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 5px; 
 }
 
-.hud-right {
-    align-items: flex-end;
+.hud-right { 
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    gap: 15px;
 }
 
-/* ==========================================
-   BAL OLDAL: ÉLETERŐ ÉS PAJZS SÁVOK
-========================================== */
 .bar-item {
     width: 250px;
 }
@@ -502,143 +475,210 @@ input[type="range"] {
 .bar-text {
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 5px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
 }
 
 .bar-line {
     width: 100%;
-    height: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+    height: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 4px;
     overflow: hidden;
     position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
 }
 
 .fill {
     height: 100%;
-    transition: width 0.2s ease-out; /* Sima animáció sebződéskor */
+    border-radius: 4px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* Témák (Neon effektek) */
-.pink-theme .bar-text {
-    color: #ff0044;
-    text-shadow: 0 0 8px #ff0044;
-}
-.pink-theme .bar-line {
-    border-color: rgba(255, 0, 68, 0.4);
-}
+.pink-theme .bar-text { color: #ff2a6d; text-shadow: 0 0 5px rgba(255, 42, 109, 0.5); }
 .pink-theme .fill {
-    background: #ff0044;
-    box-shadow: 0 0 10px #ff0044, inset 0 0 5px rgba(255,255,255,0.5);
+    background: #ff2a6d;
+    box-shadow: 0 0 10px #ff2a6d, 0 0 20px #ff2a6d;
 }
 
-.cyan-theme .bar-text {
-    color: #00ffcc;
-    text-shadow: 0 0 8px #00ffcc;
-}
-.cyan-theme .bar-line {
-    border-color: rgba(0, 255, 204, 0.4);
-}
+.cyan-theme .bar-text { color: #05d9e8; text-shadow: 0 0 5px rgba(5, 217, 232, 0.5); }
 .cyan-theme .fill {
-    background: #00ffcc;
-    box-shadow: 0 0 10px #00ffcc, inset 0 0 5px rgba(255,255,255,0.5);
+    background: #05d9e8;
+    box-shadow: 0 0 10px #05d9e8, 0 0 20px #05d9e8;
 }
 
-/* ==========================================
-   KÖZÉPSŐ RÉSZ: IDŐ, PONTSZÁM, PÉNZ
-========================================== */
 .run-time {
-    font-size: 24px;
-    color: #aaaaaa;
-    letter-spacing: 2px;
-    font-weight: bold;
+    font-size: 20px;
+    color: var(--neon-gray);
+    letter-spacing: 3px;
+    font-weight: 600;
 }
 
 .digital-score {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 800;
     letter-spacing: 4px;
-    color: #ffffff;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    margin: 5px 0;
+    color: var(--neon-light-blue);
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.8);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 6px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--neon-light-blue);
+    box-shadow: inset 0 0 10px rgba(0, 243, 255, 0.2), 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .money-row {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 22px;
+    gap: 8px;
+    font-size: 20px;
     font-weight: 700;
-    color: #ffd700;
-    text-shadow: 0 0 10px #ffd700;
+    color: var(--neon-yellow);
+    text-shadow: 0 0 10px rgba(255, 242, 0, 0.6);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 4px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 242, 0, 0.2);
 }
 
 .coin-icon {
-    width: 18px;
-    height: 18px;
-    background: #ffd700;
+    width: 14px;
+    height: 14px;
+    background: var(--neon-yellow);
     border-radius: 50%;
-    box-shadow: 0 0 10px #ffd700, inset -3px -3px 5px rgba(0,0,0,0.3);
+    box-shadow: 0 0 8px var(--neon-yellow);
 }
 
-/* ==========================================
-   JOBB OLDAL: FPS, SZINT ÉS SZÜNET GOMB
-========================================== */
 #fps-display {
-    font-size: 16px;
-    color: #00ffcc;
-    text-shadow: 0 0 5px #00ffcc;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
 }
 
 .level-container {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-top: 10px;
+    gap: 20px;
 }
 
 .level-label {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 800;
-    color: #b300ff; /* A json-ből vett basic ellenség színe */
-    text-shadow: 0 0 12px #b300ff;
-    letter-spacing: 2px;
+    color: var(--neon-purple);
+    text-shadow: 0 0 5px #fff, 0 0 15px var(--neon-purple);
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
-/* Szünet gomb (Rombusz alakú) */
 .pause-diamond {
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 2px solid #b300ff;
-    transform: rotate(45deg); /* Rombusszá forgatjuk */
+    width: 36px;
+    height: 36px;
+    background: rgba(20, 20, 20, 0.8);
+    border: 2px solid var(--neon-purple);
+    transform: rotate(45deg);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    
-    /* Visszakapcsoljuk a kattinthatóságot, hogy meg lehessen nyomni! */
     pointer-events: auto; 
-    
-    transition: all 0.2s ease;
-    box-shadow: 0 0 10px rgba(179, 0, 255, 0.5);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 0 10px rgba(188, 19, 254, 0.2), 0 0 10px rgba(188, 19, 254, 0.4);
 }
 
 .pause-diamond:hover {
-    background: rgba(179, 0, 255, 0.3);
-    box-shadow: 0 0 20px #b300ff;
-    transform: rotate(45deg) scale(1.1); /* Kicsit megnő hoverre */
+    background: var(--neon-purple);
+    box-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-purple);
+    transform: rotate(45deg) scale(1.1);
 }
 
-/* A szünet ikon (két függőleges vonal) - visszforgatjuk egyenesre */
 .pause-icon {
-    width: 12px;
-    height: 16px;
+    width: 10px;
+    height: 14px;
     transform: rotate(-45deg); 
-    border-left: 4px solid #ffffff;
-    border-right: 4px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-right: 3px solid #ffffff;
+    transition: border-color 0.3s;
+}
+
+.pause-diamond:hover .pause-icon {
+    border-left-color: #000;
+    border-right-color: #000;
+}
+
+/* GAME OVER KÉPERNYŐ
+----------------------------------- */
+.gameover-screen {
+    background: radial-gradient(circle, rgba(50, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.95) 100%);
+}
+
+.gameover-panel {
+    border-color: #ff0044;
+    box-shadow: 0 0 30px rgba(255, 0, 68, 0.2);
+}
+
+.neon-red-text {
+    color: #ff0044;
+    font-size: 2rem;
+    text-shadow: 0 0 10px #ff0044, 0 0 20px #ff0044;
+    letter-spacing: 4px;
+}
+
+.btn-red-hover:hover {
+    background: #ff0044;
+    color: var(--neon-white);
+    box-shadow: 0 0 15px #ff0044, 0 0 30px #ff0044;
+    border-color: var(--neon-white);
+}
+
+/* Glitch Effektus a Címsorra */
+.glitch-text {
+    position: relative;
+    color: #ff0044;
+    text-shadow: 0 0 15px #ff0044;
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--neon-light-blue);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--neon-yellow);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+    0% { clip: rect(21px, 9999px, 9px, 0); }
+    20% { clip: rect(61px, 9999px, 88px, 0); }
+    40% { clip: rect(11px, 9999px, 76px, 0); }
+    60% { clip: rect(98px, 9999px, 41px, 0); }
+    80% { clip: rect(51px, 9999px, 2px, 0); }
+    100% { clip: rect(78px, 9999px, 19px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); }
+    20% { clip: rect(10px, 9999px, 50px, 0); }
+    40% { clip: rect(80px, 9999px, 20px, 0); }
+    60% { clip: rect(30px, 9999px, 70px, 0); }
+    80% { clip: rect(90px, 9999px, 10px, 0); }
+    100% { clip: rect(40px, 9999px, 80px, 0); }
 }

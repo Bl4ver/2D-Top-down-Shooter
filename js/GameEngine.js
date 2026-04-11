@@ -14,10 +14,14 @@ import { ObjectPool } from "./core/ObjectPool.js";
 import { GameDirector } from "./core/GameDirector.js";
 import { Player } from "./entities/Player.js";
 
+import { Particle } from "./entities/particle.js";
+import { ParticleManager } from "./managers/ParticleManager.js";
+
 
 export class GameEngine {
     constructor() {
         this.saveManager = new SaveManager();
+        this.particleManager = new ParticleManager(this);
         this.langManager = new LangManager();
         this.renderer = new Renderer(this);
         this.inputManager = new InputManager();
@@ -30,6 +34,7 @@ export class GameEngine {
         this.enemyPools = {}
 
         this.projectilePool = new ObjectPool(Projectile, 200, this);
+        this.particlePool = new ObjectPool(Particle, 500, this);
     }
 
     async start() {
@@ -38,6 +43,8 @@ export class GameEngine {
 
         // --- 1. POOLOK ÉS STATOK DINAMIKUS GENERÁLÁSA ---
         this.initEnemyPools();
+        this.particlePool.init();
+        // ? this.projectilePool.init();
 
         this.uiManager.init();
         this.renderer.loadScreen('tpl-main-menu');

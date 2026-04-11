@@ -1,5 +1,6 @@
 import { WaveManager } from "../managers/WaveManager.js";
 import { CombatManager } from "../managers/CombatManager.js";
+import { GameEngine } from "../GameEngine.js";
 
 export class GameDirector {
     constructor(engine) {
@@ -12,15 +13,23 @@ export class GameDirector {
 
         this.cameraFollowPlayer = false;
         this.mapWidth = 0;
-        this.mapHeight = 0;
+
+        // AZ AKTUÁLIS KÖR STATISZTIKÁI
         this.score = 0;
+        this.coinsCollected = 0;
+        this.enemiesKilled = 0; // ÚJ VÁLTOZÓ
     }
 
     init(gameMode = "normal") {
         this.gameMode = gameMode;
         console.log("Game mode:", this.gameMode);
 
-        if (this.gameMode === "normal") {           // HA VÉGE A JÁTÉKNAK MINDEN ENEMYT, BULLLET-et DEALTIVÁLNI KELL!
+        // FONTOS: Minden új kezdésnél nullázzuk a kör statisztikáit!
+        this.score = 0;
+        this.coinsCollected = 0;
+        this.enemiesKilled = 0;
+
+        if (this.gameMode === "normal") {           
             this.mapWidth = 10000;
             this.mapHeight = 10000;
             this.cameraFollowPlayer = true;
@@ -31,7 +40,6 @@ export class GameDirector {
             this.cameraFollowPlayer = false;
             this.waveManager.init();
         }
-
 
         const startX = (this.mapWidth / 2) - this.engine.player.size / 2;
         const startY = (this.mapHeight / 2) - this.engine.player.size / 2;
@@ -79,7 +87,7 @@ export class GameDirector {
 
             this.combatManager.update(deltaTime);
             this.waveManager.update(deltaTime);
-
+            this.engine.particleManager.update(deltaTime);
             this.engine.renderer.update(deltaTime);
         }
     }
@@ -95,38 +103,33 @@ export class GameDirector {
         const canvasW = this.engine.renderer.gameCanvas.width;
         const canvasH = this.engine.renderer.gameCanvas.height;
 
-        const margin = 100;
+        const margin = 50;
 
         let spawnX, spawnY;
 
-        // 0: Fent, 1: Lent, 2: Baloldalt, 3: Jobboldalt
+        // Véletlenszerű pont kiválasztása egy téglalap kerületén (kamera + margin)
+        // 0: Fent, 1: Jobb, 2: Lent, 3: Bal
         const side = Math.floor(Math.random() * 4);
 
-        if (side === 0) {
-            // FENT: X bárhol lehet a kamera szélességében, Y a kamera fölött van
-            spawnX = camX + Math.random() * canvasW;
+        if (side === 0) { // Fent
+            spawnX = camX - margin + Math.random() * (canvasW + margin * 2);
             spawnY = camY - margin;
-        } else if (side === 1) {
-            // LENT: X bárhol lehet a kamera szélességében, Y a kamera alatt van
-            spawnX = camX + Math.random() * canvasW;
-            spawnY = camY + canvasH + margin;
-        } else if (side === 2) {
-            // BAL: X a kamerától balra van, Y bárhol lehet a kamera magasságában
-            spawnX = camX - margin;
-            spawnY = camY + Math.random() * canvasH;
-        } else {
-            // JOBB: X a kamerától jobbra van, Y bárhol lehet a kamera magasságában
+        } else if (side === 1) { // Jobb
             spawnX = camX + canvasW + margin;
-            spawnY = camY + Math.random() * canvasH;
+            spawnY = camY - margin + Math.random() * (canvasH + margin * 2);
+        } else if (side === 2) { // Lent
+            spawnX = camX - margin + Math.random() * (canvasW + margin * 2);
+            spawnY = camY + canvasH + margin;
+        } else { // Bal
+            spawnX = camX - margin;
+            spawnY = camY - margin + Math.random() * (canvasH + margin * 2);
         }
 
-        // 3. HATÁRVONALAK (Clamp) VIZSGÁLATA
-        // Nagyon fontos: Ha a játékos a pálya legszélén áll, a fenti matek kivenne a pályáról.
-        // Ezért biztosítjuk, hogy a spawnX és spawnY ne mehessen 0 alá, és ne lépje túl a térkép méretét!
-        // Levonjuk az enemy.size-t, hogy maga az ellenség teste is belül maradjon.
         const eSize = enemy.size || 30;
-        spawnX = Math.max(0, Math.min(spawnX, this.mapWidth - eSize));
-        spawnY = Math.max(0, Math.min(spawnY, this.mapHeight - eSize));
+        if (spawnX < 0 || spawnX > this.mapWidth - eSize || spawnY < 0 || spawnY > this.mapHeight - eSize) {
+            enemy.isActive = false;
+            return;
+        }
 
         enemy.init(spawnX, spawnY);
     }
@@ -145,6 +148,37 @@ export class GameDirector {
 
     endGame() {
         this.changeState("gameover");
+        this.engine.projectilePool.pool.forEach(p => p.isActive = false);
+        Object.values(this.engine.enemyPools).forEach(pool => {
+            pool.pool.forEach(enemy => enemy.isActive = false);
+        });
+        Object.values(this.engine.particlePool.pool).forEach(particle => particle.isActive = false);
+
+        this.engine.player.isActive = false;
+
+        // 1. Töltsük be a Game Over képernyőt
+        this.engine.renderer.loadScreen('tpl-gameover-menu');
+
+        // 2. KIKERESSÜK AZ ELEMEKET ÉS BETÖLTJÜK A KÖR ADATAIT
+        const scoreElement = document.getElementById('gameover-score');
+        const killsElement = document.getElementById('gameover-kills');
+        const coinsElement = document.getElementById('gameover-coins');
+        const badgeElement = document.getElementById('new-highscore-badge');
+
+        if (scoreElement) scoreElement.textContent = this.score.toString().padStart(6, '0');
+        if (killsElement) killsElement.textContent = this.enemiesKilled; // Ölések száma
+        if (coinsElement) coinsElement.textContent = this.coinsCollected; // Pénz mennyisége
+
+        // Új rekord ellenőrzése
+        if (this.score >= this.engine.saveManager.saveState.highScore && this.score > 0) {
+            if (badgeElement) {
+                badgeElement.style.display = "block";
+                badgeElement.style.opacity = "1";
+                badgeElement.style.visibility = "visible";
+            }
+        }
+
+        this.engine.uiManager.setupEventListeners();
     }
 
     resetGame() {

@@ -55,13 +55,12 @@ export class UiManager {
                             this.gameEngine.gameDirector.startGame();
                             this.gameEngine.renderer.setupGameScreen();
 
-                            // Be kell tölteni a játék HUD-ját!
                             this.lastScene = this.currentScene;
                             this.currentScene = 'tpl-mode-game';
                             this.gameEngine.renderer.loadScreen(this.currentScene);
                             return;
 
-                        case 'mode-challenge': // ÚJ ÁG A CHALLENGE-NEK!
+                        case 'mode-challenge':
                             this.gameEngine.gameDirector.init("challenge");
                             this.gameEngine.gameDirector.startGame();
                             this.gameEngine.renderer.setupGameScreen();
@@ -84,14 +83,25 @@ export class UiManager {
                             break;
 
                         case "pause":
-                            this.gameEngine.renderer.loadScreen('tpl-pause-menu');
-                            break;
+                            this.currentScene = 'tpl-pause-menu';
+                            this.gameEngine.renderer.loadScreen(this.currentScene);
+                            this.gameEngine.gameDirector.pauseGame();
+                            return;
+                        case "continue":
+                            this.gameEngine.gameDirector.startGame();
+                            this.currentScene = 'tpl-mode-game';
+                            this.gameEngine.renderer.loadScreen(this.currentScene);
+                            return;
+                        case "exit":
+                            this.gameEngine.gameDirector.endGame();
+                            this.currentScene = 'tpl-main-menu';
+                            this.gameEngine.renderer.loadScreen(this.currentScene);
+                            return;
                     }
 
                     // Új képernyő (normál menük)
                     this.lastScene = this.currentScene;
                     this.currentScene = `tpl-${screenName}`;
-                    console.log(screenName);
                     // console.log(`Navigáció: ${this.lastScene} -> ${this.currentScene}`);
                     this.gameEngine.renderer.loadScreen(this.currentScene);
                 }
