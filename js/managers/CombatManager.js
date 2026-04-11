@@ -27,38 +27,58 @@ export class CombatManager {
         projectiles.forEach(projectile => {
             if (!projectile.isActive) return;
 
+            // --- SZAKASZ: ELLENSÉGES LÖVEDÉK KEZELÉSE ---
             if (projectile.isEnemyProjectile) {
-                // --- A) ELLENSÉGES GOLYÓ VS JÁTÉKOS ---
+                
+                // A) Hárítás: Ellenséges golyó vs Játékos kardja
+                if (player.isActive && player.activeMelee) {
+                    const sword = player.activeMelee;
+                    if (projectile.x < sword.x + sword.size &&
+                        projectile.x + projectile.size > sword.x &&
+                        projectile.y < sword.y + sword.size &&
+                        projectile.y + projectile.size > sword.y) {
+                        
+                        this.engine.projectilePool.release(projectile);
+                        // Lila szikrák a sikeres hárításnál
+                        this.engine.particleManager.createExplosion(
+                            projectile.x, projectile.y, "#bc13fe", 5, 120, 1.5, 6.0
+                        );
+                        return; // A lövedék megsemmisült, nem vizsgáljuk tovább
+                    }
+                }
+
+                // B) Sebződés: Ellenséges golyó vs Játékos teste
                 if (player.isActive &&
                     projectile.x < player.x + player.size &&
                     projectile.x + projectile.size > player.x &&
                     projectile.y < player.y + player.size &&
                     projectile.y + projectile.size > player.y) {
 
-                        
                     player.takeDamage(projectile.damage);
                     this.engine.projectilePool.release(projectile);
 
-                    // Szikrák, amikor a játékost eltalálják (Pajzs/HP színű, pl. pirosas)
+                    // Pirosas szikrák sebződéskor
                     this.engine.particleManager.createExplosion(
                         projectile.x, projectile.y, "#ff0044", 10, 150, 2, 4.0
                     );
                 }
-            } else {
-                // --- B) JÁTÉKOS LÖVEDÉKE VS ELLENSÉG ---
+            } 
+            // --- SZAKASZ: JÁTÉKOS LÖVEDÉK KEZELÉSE ---
+            else {
                 Object.values(this.engine.enemyPools).forEach(pool => {
                     pool.pool.forEach(enemy => {
                         if (!enemy.isActive || !projectile.isActive) return;
 
-                        // Ütközés vizsgálata
+                        // Ütközés vizsgálata (AABB)
                         const isColliding = projectile.x < enemy.x + enemy.size &&
                                             projectile.x + projectile.size > enemy.x &&
                                             projectile.y < enemy.y + enemy.size &&
                                             projectile.y + projectile.size > enemy.y;
 
                         if (projectile.movementType === "melee") {
+                            // KÖZELHARC (Kard) logika
                             if (isColliding) {
-                                // Ha hozzáérünk, és még nem sebeztük meg ezen a "húzáson" belül
+                                // Csak akkor sebez, ha az adott suhintás még nem érte el az ellenséget
                                 if (!projectile.hitTargets.has(enemy)) {
                                     projectile.hitTargets.add(enemy);
                                     enemy.takeDamage(projectile.damage);
@@ -68,18 +88,19 @@ export class CombatManager {
                                     );
                                 }
                             } else {
-                                // HA ELVISSZÜK RÓLA A KARDOT: elfelejtjük az ellenséget, hogy újra sebezhessük!
+                                // Ha elhúzzuk a kardot, újra sebezhetővé válik (oda-vissza vágás lehetősége)
                                 if (projectile.hitTargets.has(enemy)) {
                                     projectile.hitTargets.delete(enemy);
                                 }
                             }
                         } 
                         else {
-                            // Sima golyó és rakéta logika
+                            // TÁVOLSÁGI (Golyó/Rakéta) logika
                             if (isColliding) {
                                 enemy.takeDamage(projectile.damage);
                                 this.engine.projectilePool.release(projectile);
 
+                                // Kék szikrák becsapódáskor
                                 this.engine.particleManager.createExplosion(
                                     projectile.x, projectile.y, "#00f3ff", 8, 150, 2, 4.0
                                 );
