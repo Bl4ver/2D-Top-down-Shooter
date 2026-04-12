@@ -39,11 +39,10 @@ export class CombatManager {
                         projectile.y + projectile.size > sword.y) {
                         
                         this.engine.projectilePool.release(projectile);
-                        // Lila szikrák a sikeres hárításnál
                         this.engine.particleManager.createExplosion(
                             projectile.x, projectile.y, "#bc13fe", 5, 120, 1.5, 6.0
                         );
-                        return; // A lövedék megsemmisült, nem vizsgáljuk tovább
+                        return;
                     }
                 }
 

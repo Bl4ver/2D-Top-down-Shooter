@@ -173,7 +173,7 @@ export class Renderer {
                         projectile.angle - 1.2, 
                         projectile.angle + 1.2
                     );
-                    this.ctx.lineWidth = 10; // Vastagabb penge
+                    this.ctx.lineWidth = 10;
                     this.ctx.strokeStyle = projectile.color;
                     this.ctx.lineCap = 'round';
                     this.ctx.stroke();
@@ -202,11 +202,10 @@ export class Renderer {
                 this.ctx.shadowColor = p.color;
 
                 this.ctx.beginPath();
-                // ITT A JAVÍTÁS: Simán p.x és p.y, mert a ctx.translate már eltolta a kamerát!
                 this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
                 this.ctx.fill();
 
-                this.ctx.restore(); // Visszaállítás az eredeti állapotra
+                this.ctx.restore();
             }
         });
 
