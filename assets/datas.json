@@ -434,7 +434,7 @@
         }
     },
     "state": {
-        "coins": 1000000,
+        "coins": 0,
         "highScore": 0,
         "settings": {
             "volume": 50,
